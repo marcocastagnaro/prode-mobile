@@ -1,7 +1,7 @@
 package com.example.prode_mobile.pronosticos
 
 import android.widget.Toast
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,9 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 //import androidx.compose.material.icons.filled.
 
@@ -42,7 +40,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -55,17 +52,18 @@ import com.example.prode_mobile.R
 import com.example.prode_mobile.ui.theme.BlueButton
 import com.example.prode_mobile.ui.theme.DarkBackground
 import com.example.prode_mobile.ui.theme.TitleColor
-import java.util.Date
 
 @Composable
 fun Pronosticos() {
     val leagues = listOf<LeagueSelector>(
+        LeagueSelector(league = "Choose Your League", onClick= {}),
         LeagueSelector(league = "Liga Argentina", onClick = {}),
         LeagueSelector(league = "Liga Brasilera", onClick = {}),
         LeagueSelector(league = "Liga Italiana", onClick = {}),
         LeagueSelector(league = "Liga Alemana", onClick = {}),
         )
     val fechas = listOf<FechaSelector> (
+        FechaSelector(0, onClick = {}),
         FechaSelector(1, onClick = {}),
         FechaSelector(2, onClick = {}),
         FechaSelector(3, onClick = {}),
@@ -74,221 +72,58 @@ fun Pronosticos() {
     )
 
     val matchesPrimFecha = listOf<MatchCardData> (
-        MatchCardData("TEAM1", "TEAM2", "2024-20-08", 1),
-        MatchCardData("TEAM3", "TEAM4", "2024-21-08", 1),
-        MatchCardData("TEAM5", "TEAM6", "2024-22-08", 1),
-        MatchCardData("TEAM7", "TEAM8", "2024-24-08", 1),
-        MatchCardData("TEAM7", "TEAM8", "2024-24-08", 1),
-        MatchCardData("TEAM7", "TEAM8", "2024-24-08", 1)
+        MatchCardData("TEAM1", "TEAM2", "2024-20-08", "https://cdn.sportmonks.com/images/soccer/teams/6/390.png", "https://cdn.sportmonks.com/images/soccer/teams/6/390.png", 1),
+        MatchCardData("TEAM3", "TEAM4", "2024-21-08", "https://cdn.sportmonks.com/images/soccer/teams/6/390.png","https://cdn.sportmonks.com/images/soccer/teams/6/390.png",1),
+        MatchCardData("TEAM5", "TEAM6", "2024-22-08", "https://cdn.sportmonks.com/images/soccer/teams/6/390.png","https://cdn.sportmonks.com/images/soccer/teams/6/390.png",1),
+        MatchCardData("TEAM7", "TEAM8", "2024-24-08", "https://cdn.sportmonks.com/images/soccer/teams/6/390.png","https://cdn.sportmonks.com/images/soccer/teams/6/390.png",1),
+        MatchCardData("TEAM7", "TEAM8", "2024-24-08", "https://cdn.sportmonks.com/images/soccer/teams/6/390.png","https://cdn.sportmonks.com/images/soccer/teams/6/390.png",1),
+        MatchCardData("TEAM7", "TEAM8", "2024-24-08", "https://cdn.sportmonks.com/images/soccer/teams/6/390.png","https://cdn.sportmonks.com/images/soccer/teams/6/390.png",1)
 
     )
-    Surface(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxSize(), color= DarkBackground) {
-        Column (modifier = Modifier.verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally){
-            SelectYourLeagueTitle()
-            LeagueSelector(leagues)
-            Column(modifier = Modifier.padding(16.dp)) {
-                matchesPrimFecha.forEach { part ->
-                    MatchCard(
-                        team1 = part.team1,
-                        team2 = part.team2,
-                        part.date
-                    )
-                    Spacer(modifier = Modifier.size(16.dp))
-                }
-            }
-        }
+    var isLeagueSelected by remember {
+        mutableStateOf(false)
     }
-}
-
-@Composable
-fun MatchCard(team1: String, team2: String, date: String) {
-    var scoreTeam1 by remember { mutableStateOf(0) }
-    var scoreTeam2 by remember { mutableStateOf(0) }
-
+    var isDateAndLeagueSelected by remember {
+        mutableStateOf(false)
+    }
     Surface(
         modifier = Modifier
-            .width(250.dp)
-            .height(150.dp), // Se ajusta la altura para acomodar los inputs y el botón
-        color = BlueButton,
-        shape = MaterialTheme.shapes.medium, // Añade bordes redondeados
-        shadowElevation = 8.dp // Añade sombra para darle profundidad
+            .fillMaxSize(),
+        color = DarkBackground,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp), // Añade padding interno para separar el contenido de los bordes
-            horizontalAlignment = Alignment.Start
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp), // Espacio debajo de las puntuaciones
-                horizontalArrangement = Arrangement.SpaceBetween // Espacia uniformemente los elementos
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = team1,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Black,
-                            color = TitleColor,
-                            fontSize = 10.sp,
-                            fontFamily = FontFamily.Monospace
-                        ),
-                        modifier = Modifier.padding(bottom = 4.dp) // Espacio debajo del nombre del equipo
-                    )
-                    ScoreInput(score = scoreTeam1, onScoreChange = {
-                        if (it != null) {
-                            scoreTeam1 = it
-                        }
-                    })
-                }
+        Column ( horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(
+                rememberScrollState()
+            )){
+            SelectYourLeagueTitle()
+            LeagueSelector(leagues, onLeagueSelected = {isLeagueSelected = true})
 
-                Text(
-                    text = "VS",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Black,
-                        color = TitleColor,
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily.Monospace
-                    ),
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                )
+            AnimatedVisibility(visible = isLeagueSelected) {
+                DateSelector(dates = fechas, isDateAndLeagueSelected = {isDateAndLeagueSelected = true})
+            }
+            AnimatedVisibility(visible = isDateAndLeagueSelected) {
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = team2,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Black,
-                            color = TitleColor,
-                            fontSize = 10.sp,
-                            fontFamily = FontFamily.Monospace
-                        ),
-                        modifier = Modifier.padding(bottom = 4.dp)
+            Column(modifier = Modifier.padding(16.dp)) {
+                matchesPrimFecha.forEach { part ->
+                    MatchCard(MatchCardData(
+                        team1 = part.team1,
+                        team2 = part.team2,
+                        part.date,
+                        part.urlTeam1,
+                        part.team2, 1),
+                        {}
                     )
-                    ScoreInput(score = scoreTeam2, onScoreChange = {
-                        if (it != null) {
-                            scoreTeam2 = it
-                        }
-                    })
+                    Spacer(modifier = Modifier.size(24.dp))
                 }
             }
-
-            Spacer(modifier = Modifier.weight(1f)) 
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = date,
-                    style = TextStyle(
-                        fontWeight = FontWeight.W300,
-                        color = TitleColor,
-                        fontSize = 14.sp,
-                        fontFamily = FontFamily.SansSerif
-                    )
-                )
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(containerColor = TitleColor)
-                ) {
-                    Text("Save", color = BlueButton)
-                }
             }
         }
     }
 }
-@Composable
-fun ScoreInput(score: Int?, onScoreChange: (Int?) -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        IconButton(
-            onClick = {
-                if (score != null && score > 0) {
-                    onScoreChange(score - 1)
-                } else if (score == 0) {
-                    onScoreChange(null) // Vuelve a "-"
-                }
-            },
-            modifier = Modifier.size(18.dp)
-        ) {
-            Icon(imageVector = Icons.Default.Remove, contentDescription = "Decrease")
-        }
 
-        OutlinedTextField(
-            value = score?.toString() ?: "-",
-            onValueChange = { newValue ->
-                val newScore = newValue.toIntOrNull()
-                onScoreChange(newScore)
-            },
-            modifier = Modifier
-                .width(40.dp)
-                .height(30.dp),
-            textStyle = TextStyle(fontSize = 12.sp),
-            singleLine = true,
-            readOnly = true // Hacer que sea solo de lectura para que solo los botones lo cambien
-        )
 
-        IconButton(
-            onClick = {
-                if (score == null) {
-                    onScoreChange(0) // Empieza de 0 si está en "-"
-                } else {
-                    onScoreChange(score + 1)
-                }
-            },
-            modifier = Modifier.size(18.dp)
-        ) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "Increase")
-        }
-    }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LeagueSelector(leagues: List<LeagueSelector>) {
-    val context = LocalContext.current
-    val leagueNames = leagues.map{ l -> l.league}
-    var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(leagueNames[0]) }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(32.dp)
-    ) {
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = {
-                expanded = !expanded
-            }
-        ) {
-            TextField(
-                value = selectedText,
-                onValueChange = {},
-                readOnly = true,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier.menuAnchor()
-            )
-
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                leagueNames.forEach { item ->
-                    DropdownMenuItem(
-                        text = { Text(text = item) },
-                        onClick = {
-                            selectedText = item
-                            expanded = false
-                            Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
-                        }
-                    )
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun SelectYourLeagueTitle () {
@@ -302,7 +137,7 @@ fun SelectYourLeagueTitle () {
                     fontWeight = FontWeight.Bold,
                     color = TitleColor,
                     fontSize = 32.sp,
-                    fontFamily = FontFamily.Monospace
+                    fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(16.dp)
             )
             Text(
@@ -310,7 +145,7 @@ fun SelectYourLeagueTitle () {
                     fontWeight = FontWeight.Bold,
                     color = TitleColor,
                     fontSize = 16.sp,
-                    fontFamily = FontFamily.Monospace
+                    fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(16.dp)
             )
         }
@@ -331,7 +166,9 @@ data class MatchCardData (
     val team1: String,
     val team2: String,
     val date: String,
-    val nroFecha: Int
+    val urlTeam1: String,
+    val urlTeam2: String,
+    val nroFecha: Int,
 )
 @Preview
 @Composable
