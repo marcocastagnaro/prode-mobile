@@ -1,4 +1,4 @@
-package com.example.prode_mobile.screen
+package com.example.prode_mobile.leagues
 
 import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,8 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.prode_mobile.screen.api_calls.API_calls
-import com.example.prode_mobile.screen.api_calls.LeagueData
+import com.example.prode_mobile.api_calls.API_calls
 import kotlinx.coroutines.launch
 
 @Composable

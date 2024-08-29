@@ -1,4 +1,4 @@
-package com.example.prode_mobile.screen.api_calls
+package com.example.prode_mobile.api_calls
 
 object StaticValues {
     const val API_VERSION = "v3"

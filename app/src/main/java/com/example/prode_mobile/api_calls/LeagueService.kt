@@ -1,4 +1,4 @@
-package com.example.prode_mobile.screen.api_calls
+package com.example.prode_mobile.api_calls
 
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SportsSoccer
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -46,12 +47,12 @@ fun TopBar (    navController : NavHostController) {
         title = {
             Text(text = "") },
         actions = {
-            Row (horizontalArrangement = Arrangement.End){
+            Row (horizontalArrangement = Arrangement.End, modifier = Modifier.padding(20.dp)) {
                 BadgedBox(badge = {}) {
                     Icon(
-                        imageVector = Icons.Filled.Settings,
+                        imageVector = Icons.Filled.Star,
                         contentDescription = "",
-                        modifier = Modifier.clickable { navController.navigate(ProdeScreen.Settings.name) })
+                        modifier = Modifier.clickable { navController.navigate(ProdeScreen.Score.name) })
                 }
             }
         }

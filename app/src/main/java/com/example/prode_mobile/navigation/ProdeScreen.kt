@@ -7,11 +7,11 @@ enum class ProdeScreen {
     Pronosticos,
     League,
 
-    Settings
+    Score
 }
 val basePages = listOf(
     ProdeScreen.Home.name,
     ProdeScreen.Pronosticos.name,
     ProdeScreen.League.name,
-    ProdeScreen.Settings
+    ProdeScreen.Score
 )

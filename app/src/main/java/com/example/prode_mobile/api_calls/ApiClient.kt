@@ -1,4 +1,4 @@
-package com.example.prode_mobile.screen.api_calls
+package com.example.prode_mobile.api_calls
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

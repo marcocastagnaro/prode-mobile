@@ -1,6 +1,8 @@
 package com.example.prode_mobile.pronosticos
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,14 +46,18 @@ import com.example.prode_mobile.ui.theme.TitleColor
 fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
     var scoreTeam1 by remember { mutableStateOf(0) }
     var scoreTeam2 by remember { mutableStateOf(0) }
-
+    var isMatchCardClickeable by remember {
+        mutableStateOf(false)
+    }
+    val cardHeight by animateDpAsState(targetValue = if (isMatchCardClickeable) 220.dp else 80.dp)
     Surface(
         modifier = Modifier
             .width(250.dp)
-            .height(80.dp),
+            .height(cardHeight)
+            .clickable { isMatchCardClickeable = !isMatchCardClickeable },
         color = BlueButton,
         shape = MaterialTheme.shapes.medium,
-        shadowElevation = 8.dp
+        shadowElevation = 8.dp,
     ) {
         Column(
             modifier = Modifier
@@ -105,6 +112,31 @@ fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
             }
 
             Spacer(modifier = Modifier.weight(1f))
+            if (isMatchCardClickeable) {
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    TextField(
+                        value = scoreTeam1.toString(),
+                        onValueChange = { scoreTeam1 = it.toIntOrNull() ?: 0 },
+                        modifier = Modifier.width(90.dp),
+                        label = { Text(text = matchData.team1, style = TextStyle(fontSize = 8.sp)) }
+                    )
+                    TextField(
+                        value = scoreTeam2.toString(),
+                        onValueChange = { scoreTeam2 = it.toIntOrNull() ?: 0 },
+                        modifier = Modifier.width(90.dp),
+                        label = { Text(text = matchData.team2, style = TextStyle(fontSize = 8.sp)) }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(onClick = { /* Save action */ }, modifier = Modifier.height(24.dp)) {
+                    Text(text = "Save", style = TextStyle(fontSize = 8.sp))
+                }
+            }
         }
     }
 }
@@ -121,3 +153,7 @@ fun PreviewCard() {
         {}
     )
 }
+/* Preguntas para la clase que vene:
+- Como arreglar el boton de volver para atras
+
+ */

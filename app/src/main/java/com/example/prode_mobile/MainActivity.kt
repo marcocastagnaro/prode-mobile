@@ -13,8 +13,9 @@ import com.example.prode_mobile.navigation.BottomBar
 import com.example.prode_mobile.navigation.NavHostComposable
 import com.example.prode_mobile.navigation.TopBar
 import com.example.prode_mobile.ui.theme.ProdemobileTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

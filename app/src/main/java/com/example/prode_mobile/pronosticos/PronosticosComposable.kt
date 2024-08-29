@@ -111,9 +111,8 @@ fun Pronosticos() {
                         team2 = part.team2,
                         part.date,
                         part.urlTeam1,
-                        part.team2, 1),
-                        {}
-                    )
+                        part.team2, 1)
+                    ) {}
                     Spacer(modifier = Modifier.size(24.dp))
                 }
             }
