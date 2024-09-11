@@ -49,10 +49,10 @@ fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
     var isMatchCardClickeable by remember {
         mutableStateOf(false)
     }
-    val cardHeight by animateDpAsState(targetValue = if (isMatchCardClickeable) 220.dp else 80.dp)
+    val cardHeight by animateDpAsState(targetValue = if (isMatchCardClickeable) 220.dp else 100.dp)
     Surface(
         modifier = Modifier
-            .width(250.dp)
+            .width(400.dp)
             .height(cardHeight)
             .clickable { isMatchCardClickeable = !isMatchCardClickeable },
         color = BlueButton,
@@ -71,19 +71,7 @@ fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
                     .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = matchData.team1,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Black,
-                            color = TitleColor,
-                            fontSize = 10.sp,
-                            fontFamily = FontFamily.SansSerif
-                        ),
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
-                    AsyncImage(model = matchData.urlTeam1, contentDescription = "", modifier= Modifier.size(50.dp)) //Place holder para cuando la imagen carga y error cuando falla
-                }
+                MatchNameAndImage(urlImage = matchData.urlTeam1, name = matchData.team1, Modifier.fillMaxWidth(0.18f))
 
                 Text(
                     text = matchData.date,
@@ -96,26 +84,14 @@ fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = matchData.team2,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Black,
-                            color = TitleColor,
-                            fontSize = 10.sp,
-                            fontFamily = FontFamily.Monospace
-                        ),
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
-                    AsyncImage(model = matchData.urlTeam2, contentDescription = "", modifier = Modifier.size(50.dp)) //Place holder para cuando la imagen carga y error cuando falla
-                }
+                MatchNameAndImage(urlImage = matchData.urlTeam2, name =matchData.team2, Modifier.fillMaxWidth(0.38f))
             }
 
             Spacer(modifier = Modifier.weight(1f))
             if (isMatchCardClickeable) {
                 Row (
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     TextField(
                         value = scoreTeam1.toString(),

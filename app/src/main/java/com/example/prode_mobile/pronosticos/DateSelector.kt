@@ -11,6 +11,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,13 +19,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.prode_mobile.leagues.LeagueViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit) {
+
     val context = LocalContext.current
-    val dateNames = dates.map{ date -> date.nroFecha}
+    val dateNames = dates.map { date -> date.nroFecha }
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(dateNames[0]) }
 

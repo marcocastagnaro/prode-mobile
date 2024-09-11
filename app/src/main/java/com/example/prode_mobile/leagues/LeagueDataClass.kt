@@ -8,3 +8,7 @@ data class LeagueData (
     val image_path: String,
     val category: Int,
 )
+
+data class LeaguesData(
+    val data: ArrayList<LeagueData>
+)

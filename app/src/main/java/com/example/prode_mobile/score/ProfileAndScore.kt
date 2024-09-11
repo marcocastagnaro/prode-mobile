@@ -3,6 +3,7 @@ package com.example.prode_mobile.score
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,17 +33,27 @@ fun ScoreAndProfile() {
 
             Text(
                 text = "Score & Profile", style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = 60.sp,
                     fontFamily = FontFamily.Serif,
                 ), modifier = Modifier.padding(16.dp)
             )
+            Spacer(modifier = Modifier.size(16.dp))
 
             Divider(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
             )
+            Spacer(modifier = Modifier.size(16.dp))
+
             Profile()
+            Spacer(modifier = Modifier.size(16.dp))
+            Divider(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+            )
+            Score()
         }
     }
 }
@@ -50,6 +61,6 @@ fun ScoreAndProfile() {
 
 @Preview
 @Composable
-fun ScorePreview() {
-    Score()
+fun ScoreAndProfPreview() {
+    ScoreAndProfile()
 }

@@ -60,17 +60,19 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation("androidx.compose.material3:material3:1.2.0-rc01")
     implementation ("androidx.compose.material:material-icons-extended:1.6.8")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("com.google.dagger:hilt-android:2.49")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 // Retrofit and Gson dependencies
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation(libs.androidx.navigation.compose)
-
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit:converter-gson:2.0.0-beta2")
 
     implementation("androidx.compose.material3:material3:1.3.0-beta04")
     implementation("io.coil-kt:coil-compose:2.4.0")

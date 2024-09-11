@@ -3,4 +3,7 @@
     <string name="home_title"> PRODE 360</string>
     <string name="pronsoticos_title"> Mis Pronosticos </string>
     <string name="pronsoticos_subtitle"> Seleccione la liga y reliza tus pronosticos </string>
+
+    <string name="retry">Retry</string>
+    <string name="retry_load_leagues">Can\'t load leagues, try again later</string>
 </resources>
