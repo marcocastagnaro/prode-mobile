@@ -92,7 +92,6 @@ class LeagueViewModel @Inject constructor(
                     seasonId = league.seasonId
                 )
             })
-
             retryLoadingLeagues()
             }
 
