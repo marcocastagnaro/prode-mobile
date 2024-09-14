@@ -57,7 +57,7 @@ import com.example.prode_mobile.ui.theme.PurpleGrey80
 @Composable
 fun Leagues() {
     val viewModel = hiltViewModel<LeagueViewModel>()
-    val leaguesList by viewModel.leaguesList.collectAsState()
+    val leaguesList by viewModel.leaguesAndSeasonList.collectAsState(initial = emptyList())
 
     val loading by viewModel.loadingLeagues.collectAsState()
     val showRetry by viewModel.showRetry.collectAsState()
@@ -103,7 +103,8 @@ fun Leagues() {
                 }
                 item {
                     leaguesList.forEach { league ->
-                        LeagueCard(league = league, true, viewModel)
+                        val cast_league = LeagueData(league.league_id, league.country_id, league.name, league.active, league.image_path, league.category, league.seasonId)
+                        LeagueCard(league = cast_league, true, viewModel)
                     }
                 }
                 item {
@@ -172,7 +173,7 @@ fun LeagueCard(league: LeagueData, myleague: Boolean, viewModel: LeagueViewModel
                 Spacer(modifier = Modifier.weight(1f))
                 DeleteLeagueAction(
                     delLeagueAction = viewModel::delLeague,
-                    league
+                    league.id
                 )
             }
 
@@ -227,7 +228,10 @@ fun UnavailableLeagueCard(league: LeagueData, myleague: Boolean, viewModel: Leag
 }
 
 @Composable
-fun DeleteLeagueAction (delLeagueAction : (Int, Int, String, Boolean, String, Int) -> Unit, leagueData: LeagueData) {
+fun DeleteLeagueAction(
+    delLeagueAction: (Int) -> Unit,
+    leagueId: Int
+) {
     var showAlert by remember {
         mutableStateOf(false)
     }
@@ -247,14 +251,7 @@ fun DeleteLeagueAction (delLeagueAction : (Int, Int, String, Boolean, String, In
         AlertDialogExample(
             onDismissRequest = { showAlert = false },
             onConfirmation = {
-                delLeagueAction(
-                    leagueData.id,
-                    leagueData.country_id,
-                    leagueData.name,
-                    leagueData.active,
-                    leagueData.image_path,
-                    leagueData.category
-                )
+                delLeagueAction(leagueId)
                 showAlert = false
             },
             dialogTitle = "Delete League",
@@ -268,7 +265,7 @@ fun DeleteLeagueAction (delLeagueAction : (Int, Int, String, Boolean, String, In
 
 @Composable
 fun AddLeagueAction(
-    addLeagueaction : (Int, Int, String, Boolean, String, Int) -> Unit,
+    addLeagueaction : (Int, Int, String, Boolean, String, Int, Int) -> Unit,
     leagueData: LeagueData
 ) {
     var showAlert by remember {
@@ -290,7 +287,7 @@ fun AddLeagueAction(
         AlertDialogExample(
             onDismissRequest = { showAlert = false },
             onConfirmation = {
-                addLeagueaction(leagueData.id, leagueData.country_id, leagueData.name, leagueData.active, leagueData.image_path, leagueData.category)
+                addLeagueaction(leagueData.id, leagueData.country_id, leagueData.name, leagueData.active, leagueData.image_path, leagueData.category, leagueData.seasonId)
                 showAlert = false
             },
             dialogTitle = "Add League",

@@ -1,14 +1,17 @@
 package com.example.prode_mobile.leagues
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.prode_mobile.api_calls.ApiServiceImpl
+import com.example.prode_mobile.data.LeagueAndSeason
+import com.example.prode_mobile.data.ProdeMobileDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,19 +24,20 @@ class LeagueViewModel @Inject constructor(
     private val _loadingLeagues = MutableStateFlow(false)
     val loadingLeagues = _loadingLeagues.asStateFlow()
 
-    private var _leaguesList = MutableStateFlow(listOf<LeagueData>())
-    val leaguesList = _leaguesList.asStateFlow()
-
     val _allLeaguesList = MutableStateFlow(listOf<LeagueData>())
     val allLeaguesList = _allLeaguesList.asStateFlow()
 
     val _seasonList = MutableStateFlow(listOf<SeasonData>())
     val seasonList = _seasonList.asStateFlow()
+
     val _unavailableLeaguesList = MutableStateFlow(listOf<LeagueData>())
     val unavailableLeaguesList = _unavailableLeaguesList.asStateFlow()
 
     private val _showRetry = MutableStateFlow(false)
     val showRetry = _showRetry.asStateFlow()
+
+    private val prode_database = ProdeMobileDatabase.getDatabase(context)
+    val leaguesAndSeasonList = prode_database.leagueDao().getAllLeagues().asFlow()
 
     init {
         loadLeagues()
@@ -43,30 +47,56 @@ class LeagueViewModel @Inject constructor(
         loadLeagues()
     }
 
-    fun addNewLeague (id : Int, country_id : Int, name : String, active : Boolean, image_path : String, category : Int) {
-        val newLeague = LeagueData(id, country_id, name, active, image_path, category)
-        val newList = _leaguesList.value + newLeague
-        viewModelScope.launch {
-            _leaguesList.emit(newList)
-        }
+    fun addNewLeague(id: Int, country_id: Int, name: String, active: Boolean, image_path: String, category: Int, seasonId: Int) {
+        val newLeague = LeagueAndSeason(
+            league_id = id,
+            country_id = country_id,
+            name = name,
+            active = active,
+            image_path = image_path,
+            category = category,
+            seasonId = seasonId
+        )
 
-        val updatedAllLeaguesList = _allLeaguesList.value.filterNot { it.id == id }
         viewModelScope.launch {
-            _allLeaguesList.emit(updatedAllLeaguesList)
+            try {
+                prode_database.leagueDao().insert(newLeague)
+                val updatedLeaguesList = _allLeaguesList.value.filter { it.id != id }
+                _allLeaguesList.emit(updatedLeaguesList)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-
     }
-    fun delLeague (id : Int, country_id : Int, name : String, active : Boolean, image_path : String, category : Int) {
-        val newList = _leaguesList.value.filter { it.id != id }
-        viewModelScope.launch {
-            _leaguesList.emit(newList)
-        }
 
-        val newLeague = LeagueData(id, country_id, name, active, image_path, category)
-        val updatedAllLeaguesList = _allLeaguesList.value + newLeague
+
+    fun delLeague(id: Int) {
         viewModelScope.launch {
-            _allLeaguesList.emit(updatedAllLeaguesList)
-        }
+            val currentList = leaguesAndSeasonList.first()
+
+            val newList = currentList.filter { it.league_id != id }
+
+            val leagueToDelete = currentList.find { it.league_id == id }
+
+            if (leagueToDelete != null) {
+                prode_database.leagueDao().delete(leagueToDelete)
+            }
+            val newLeague = (newList.map { league ->
+                LeagueData(
+                    id = league.league_id,
+                    country_id = league.country_id,
+                    name = league.name,
+                    active = league.active,
+                    image_path = league.image_path,
+                    category = league.category,
+                    seasonId = league.seasonId
+                )
+            })
+
+            retryLoadingLeagues()
+            }
+
+
     }
     fun mockUnavailableLeagues() {
         val mockLeagues = listOf(
@@ -76,7 +106,9 @@ class LeagueViewModel @Inject constructor(
                 name = "Premier League",
                 active = true,
                 image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
-                category = 1
+                category = 1,
+                seasonId = 23584
+
             ),
             LeagueData(
                 id = 2,
@@ -84,7 +116,8 @@ class LeagueViewModel @Inject constructor(
                 name = "La Liga",
                 active = true,
                 image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
-                category = 1
+                category = 1,
+                seasonId = 23584
             ),
             LeagueData(
                 id = 3,
@@ -92,7 +125,9 @@ class LeagueViewModel @Inject constructor(
                 name = "Serie A",
                 active = true,
                 image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
-                category = 1
+                category = 1,
+                seasonId = 23584
+
             ),
             LeagueData(
                 id = 4,
@@ -100,7 +135,9 @@ class LeagueViewModel @Inject constructor(
                 name = "Bundesliga",
                 active = true,
                 image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
-                category = 1
+                category = 1,
+                seasonId = 23584
+
             ),
             LeagueData(
                 id = 5,
@@ -108,7 +145,9 @@ class LeagueViewModel @Inject constructor(
                 name = "Ligue 1",
                 active = true,
                 image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
-                category = 1
+                category = 1,
+                seasonId = 23584
+
             )
         )
         viewModelScope.launch {
@@ -134,10 +173,21 @@ class LeagueViewModel @Inject constructor(
                     onSuccess = { leagues ->
                         viewModelScope.launch {
                             val currentSeasons = _seasonList.value
-                            val filteredLeagues = leagues.filter { league ->
-                                currentSeasons.any { season -> season.league_id == league.id }
+                            val filteredLeagues = leagues.map { league ->
+                                val matchingSeason = currentSeasons.find { season -> season.league_id == league.id }
+
+                                if (matchingSeason != null) {
+                                    league.copy(seasonId = matchingSeason.id)
+                                } else {
+                                    league
+                                }
                             }
-                            _allLeaguesList.emit(filteredLeagues)
+
+                            val notRepeatedLeagues = filteredLeagues.filter { league ->
+                                leaguesAndSeasonList.first().none { it.league_id == league.id }
+                            }
+
+                            _allLeaguesList.emit(notRepeatedLeagues)
                         }
                         _showRetry.value = false
                     },

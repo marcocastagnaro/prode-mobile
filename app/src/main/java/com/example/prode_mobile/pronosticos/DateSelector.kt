@@ -20,12 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.prode_mobile.leagues.LeagueViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit) {
+    val viewModel = hiltViewModel<PronosticosViewModel>()
 
     val context = LocalContext.current
     val dateNames = dates.map { date -> date.nroFecha }
@@ -59,6 +59,7 @@ fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit
                     DropdownMenuItem(
                         text = { Text(text = item.toString()) },
                         onClick = {
+                            viewModel.saveRoundToDataStore(item.toString())
                             selectedText = item
                             expanded = false
                             isDateAndLeagueSelected()

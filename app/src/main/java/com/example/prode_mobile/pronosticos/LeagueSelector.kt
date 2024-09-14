@@ -18,12 +18,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.prode_mobile.data.LeagueAndSeason
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LeagueSelector(leagues: List<LeagueSelector>, onLeagueSelected: () -> Unit) {
+fun LeagueSelector(leagues: List<LeagueAndSeason>, onLeagueSelected: () -> Unit) {
     val context = LocalContext.current
-    val leagueNames = leagues.map{ l -> l.league}
+
+    val leagueNames = leagues.map{ l -> l.name}
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(leagueNames[0]) }
 

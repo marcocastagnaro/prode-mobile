@@ -7,6 +7,7 @@ data class LeagueData (
     val active: Boolean, //QUE SEA SIMEPRE TRRUE
     val image_path: String,
     val category: Int,
+    val seasonId: Int
 )
 
 data class LeaguesData(

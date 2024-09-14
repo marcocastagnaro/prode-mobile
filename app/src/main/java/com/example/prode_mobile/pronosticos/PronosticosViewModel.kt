@@ -3,8 +3,13 @@ package com.example.prode_mobile.pronosticos
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.prode_mobile.api_calls.ApiServiceImpl
+import com.example.prode_mobile.data.PreferencesKeys
+import com.example.prode_mobile.data.ProdeMobileDatabase
+import com.example.prode_mobile.data.getFromDataStore
+import com.example.prode_mobile.data.saveToDataStore
 import com.example.prode_mobile.leagues.LeagueData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -46,9 +51,28 @@ class PronosticosViewModel @Inject constructor(
     private var _scheduleList = MutableStateFlow(listOf<RoundMatchData>())
     val scheduleList = _scheduleList.asStateFlow()
 
+    private var _roundValue = MutableStateFlow("")
+    val roundValue = _roundValue.asStateFlow()
     init {
         loadRounds()
+        getRoundFromDataStore()
     }
+    private fun getRoundFromDataStore() {
+        viewModelScope.launch {
+            getFromDataStore(context, PreferencesKeys.ROUND_SELECTED).collect {
+                _roundValue.value = it ?: ""
+            }
+        }
+    }
+
+    fun saveRoundToDataStore(round: String) {
+        viewModelScope.launch {
+            saveToDataStore(context, round, PreferencesKeys.ROUND_SELECTED)
+            _roundValue.value = round
+        }
+    }
+    private val prode_database = ProdeMobileDatabase.getDatabase(context)
+    val leaguesAndSeasonList = prode_database.leagueDao().getAllLeagues().asFlow()
 
     fun retryLoadingRounds() {
         loadRounds()
