@@ -41,6 +41,8 @@ import com.example.prode_mobile.ui.theme.BlueButton
 import com.example.prode_mobile.ui.theme.DarkBackground
 import com.example.prode_mobile.ui.theme.PurpleGrey80
 import com.example.prode_mobile.ui.theme.TitleColor
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -58,6 +60,7 @@ fun Pronosticos() {
     val fechas = listRoundNumber.map { FechaSelector(nroFecha = it) }
 
     val matches = remember { mutableListOf<MatchCardData>() }  // Usar remember para mantener el estado de la lista
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
     var isLeagueSelected by remember {
         mutableStateOf(false)
@@ -137,7 +140,7 @@ fun Pronosticos() {
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(text = stringResource(id = R.string.retry_load_leagues))
-                            Button(onClick = { viewModel.retryLoadingMatches("1") }) {
+                            Button(onClick = { viewModel.retryLoadingMatches(roundId = viewModel.roundValue.value) }) {
                                 Text(text = stringResource(id = R.string.retry))
                             }
                         }
@@ -156,15 +159,18 @@ fun Pronosticos() {
                                 val urlTeam1 = team1.image_path
                                 val urlTeam2 = team2.image_path
                                 val nroFecha = fixture.round_id
-
+                                val fixtureDate: Date = dateFormat.parse(fixture.starting_at) // Convierte el String a Date
+                                val currentDate = Date()
                                 matches.add(
                                     MatchCardData(
+                                        fixture.id,
                                         team1.name,
                                         team2.name,
                                         date,
                                         urlTeam1,
                                         urlTeam2,
-                                        nroFecha
+                                        nroFecha,
+                                        fixtureDate.before(currentDate)
                                     )
                                 )
                             }
@@ -174,11 +180,12 @@ fun Pronosticos() {
                             matches.forEach { part ->
                                 MatchCard(
                                     MatchCardData(
+                                        part.match_id,
                                         team1 = part.team1,
                                         team2 = part.team2,
                                         part.date,
                                         part.urlTeam1,
-                                        part.urlTeam2, 1
+                                        part.urlTeam2, 1, part.is_older
                                     )
                                 ) {}
                                 Spacer(modifier = Modifier.size(24.dp))
@@ -226,12 +233,14 @@ data class FechaSelector (
 )
 
 data class MatchCardData (
+    val match_id: Int,
     val team1: String,
     val team2: String,
     val date: String,
     val urlTeam1: String,
     val urlTeam2: String,
     val nroFecha: Int,
+    val is_older: Boolean
 )
 @Preview
 @Composable
