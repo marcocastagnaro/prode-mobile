@@ -7,9 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [LeagueAndSeason::class], version = 2)
+@Database(entities = [LeagueAndSeason::class, ProdeResult::class], version = 3)
 abstract class ProdeMobileDatabase : RoomDatabase() {
     abstract fun leagueDao(): LeagueDao
+    abstract fun prodeResultDao(): ProdeResultDao
 
     companion object {
         @Volatile
@@ -46,6 +47,45 @@ abstract class ProdeMobileDatabase : RoomDatabase() {
                 database.execSQL("DROP TABLE leagues_old")
             }
         }
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Verificar si la tabla prode_results ya existe, si no, se crea una nueva
+                database.execSQL("""
+            CREATE TABLE IF NOT EXISTS prode_results (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                matchId INTEGER NOT NULL,
+                localGoals INTEGER NOT NULL,
+                visitorGoals INTEGER NOT NULL,
+                points INTEGER NOT NULL
+            )
+        """)
+
+                // Renombramos la tabla antigua para conservar los datos.
+                database.execSQL("ALTER TABLE prode_results RENAME TO prode_results_old")
+
+                // Creamos la nueva tabla con el esquema actualizado.
+                database.execSQL("""
+            CREATE TABLE prode_results (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                matchId INTEGER NOT NULL,
+                localGoals INTEGER NOT NULL,
+                visitorGoals INTEGER NOT NULL,
+                winner TEXT NOT NULL
+            )
+        """)
+
+                // Copiamos los datos de la tabla antigua a la nueva tabla.
+                database.execSQL("""
+            INSERT INTO prode_results (id, matchId, localGoals, visitorGoals, winner)
+            SELECT id, matchId, localGoals, visitorGoals, '' AS winner
+            FROM prode_results_old
+        """)
+
+                // Eliminamos la tabla antigua.
+                database.execSQL("DROP TABLE prode_results_old")
+            }
+        }
+
 
         fun getDatabase(context: Context): ProdeMobileDatabase {
             return INSTANCE ?: synchronized(this) {
@@ -54,7 +94,7 @@ abstract class ProdeMobileDatabase : RoomDatabase() {
                     ProdeMobileDatabase::class.java,
                     "prode_database"
                 )
-                    .addMigrations(MIGRATION_1_2) // Agrega la migración aquí
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3) // Agrega la migración aquí
                     .build()
                 INSTANCE = instance
                 instance

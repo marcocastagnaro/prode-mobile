@@ -22,3 +22,21 @@ interface LeagueDao {
     fun getAllLeagues(): LiveData<List<LeagueAndSeason>>
 
 }
+
+@Dao
+interface ProdeResultDao {
+    @Insert
+    suspend fun insert(prodeResult: ProdeResult)
+
+    @Update
+    suspend fun update(prodeResult: ProdeResult)
+
+    @Delete
+    suspend fun delete(prodeResult: ProdeResult)
+
+    @Query("SELECT * FROM prode_results")
+    fun getAllProdeResults(): LiveData<List<ProdeResult>>
+
+    @Query("SELECT * FROM prode_results WHERE matchId = :matchId")
+    fun getProdeResult(matchId: Int): LiveData<ProdeResult>
+}

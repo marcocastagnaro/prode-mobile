@@ -45,12 +45,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.prode_mobile.data.saveToDataStore
 import com.example.prode_mobile.ui.theme.BlueButton
 import com.example.prode_mobile.ui.theme.TitleColor
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
+fun MatchCard(matchData: MatchCardData, viewModel: PronosticosViewModel) {
     var scoreTeam1 by remember { mutableStateOf(0) }
     var scoreTeam2 by remember { mutableStateOf(0) }
     var isMatchCardClickeable by remember {
@@ -80,7 +81,11 @@ fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
                     .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                MatchNameAndImage(urlImage = matchData.urlTeam1, name = matchData.team1, Modifier.fillMaxWidth(0.18f))
+                MatchNameAndImage(
+                    urlImage = matchData.urlTeam1,
+                    name = matchData.team1,
+                    Modifier.fillMaxWidth(0.18f)
+                )
 
                 Text(
                     text = matchData.date,
@@ -93,12 +98,21 @@ fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
 
-                MatchNameAndImage(urlImage = matchData.urlTeam2, name =matchData.team2, Modifier.fillMaxWidth(0.38f))
+                MatchNameAndImage(
+                    urlImage = matchData.urlTeam2,
+                    name = matchData.team2,
+                    Modifier.fillMaxWidth(0.38f)
+                )
             }
 
             Spacer(modifier = Modifier.weight(1f))
             if (isMatchCardClickeable) {
                 if (!matchData.is_older) {
+                    if (viewModel.isMatchAlreadyInDB(matchId = matchData.match_id)){
+                        val prodeResult = viewModel.getProdeResult(matchId = matchData.match_id)
+                        scoreTeam1 = prodeResult.localGoals ?: 0
+                        scoreTeam2 = prodeResult.visitorGoals ?: 0
+                    }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly
@@ -128,10 +142,12 @@ fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
-
-                    Button(onClick = { /* Save action */ }, modifier = Modifier.height(24.dp)) {
-                        Text(text = "Save", style = TextStyle(fontSize = 8.sp))
-                    }
+                    SavePronosticoToDatabase(
+                        matchId = matchData.match_id,
+                        scoreTeam1 = scoreTeam1,
+                        scoreTeam2 = scoreTeam2,
+                        viewModel = viewModel
+                    )
                 } else {
                     val fixture = viewModel.scheduleList.value
                         .flatMap { it.fixtures }
@@ -180,6 +196,17 @@ fun MatchCard(matchData: MatchCardData, isCardSelected : () -> Unit) {
     }
 }
 
+@Composable
+fun SavePronosticoToDatabase (matchId: Int, scoreTeam1: Int, scoreTeam2: Int, viewModel: PronosticosViewModel) : Unit {
+    val winner = if (scoreTeam1 > scoreTeam2) "local" else if (scoreTeam1 < scoreTeam2) "visitor" else "draw"
+    Button(onClick = {
+        viewModel.savePronostico(matchId, scoreTeam1, scoreTeam2, winner)
+    }, modifier = Modifier.height(24.dp)) {
+        Text(text = "Save", style = TextStyle(fontSize = 8.sp))
+    }
+
+}
+
 @Preview
 @Composable
 fun PreviewCard() {
@@ -190,6 +217,6 @@ fun PreviewCard() {
         "30-oct",
         "https://cdn.sportmonks.com/images/soccer/teams/6/390.png",
         "https://cdn.sportmonks.com/images/soccer/teams/6/390.png", 1, true),
-        {}
+        hiltViewModel<PronosticosViewModel>()
     )
 }

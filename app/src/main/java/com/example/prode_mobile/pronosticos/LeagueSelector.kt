@@ -19,15 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.prode_mobile.data.LeagueAndSeason
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LeagueSelector(leagues: List<LeagueAndSeason>, onLeagueSelected: () -> Unit) {
+fun LeagueSelector(leagues: List<LeagueAndSeason>, onLeagueSelected: (String) -> Unit) {
     val context = LocalContext.current
 
-    val leagueNames = leagues.map{ l -> l.name}
+    val leagueNames = leagues.map { l -> l.name }
+
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(leagueNames[0]) }
+    var selectedText by remember { mutableStateOf(if (leagueNames.isNotEmpty()) leagueNames[0] else "") }
 
     Box(
         modifier = Modifier
@@ -36,9 +36,7 @@ fun LeagueSelector(leagues: List<LeagueAndSeason>, onLeagueSelected: () -> Unit)
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
-            onExpandedChange = {
-                expanded = !expanded
-            }
+            onExpandedChange = { expanded = !expanded }
         ) {
             TextField(
                 value = selectedText,
@@ -58,8 +56,8 @@ fun LeagueSelector(leagues: List<LeagueAndSeason>, onLeagueSelected: () -> Unit)
                         onClick = {
                             selectedText = item
                             expanded = false
-                            onLeagueSelected()
-                            Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
+                            onLeagueSelected(item)
+                            Toast.makeText(context, "Liga seleccionada: $item", Toast.LENGTH_SHORT).show()
                         }
                     )
                 }

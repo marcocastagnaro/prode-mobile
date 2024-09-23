@@ -21,9 +21,9 @@ data class LeagueAndSeason(
 @Entity(tableName = "prode_results")
 data class ProdeResult(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    val matchId: Int,
-    val localGoals: Int,
-    val visitorGoals: Int,
-    val points: Int,
+        val id: Long = 0,
+        val matchId: Int,
+        val localGoals: Int,
+        val visitorGoals: Int,
+        val winner: String
 )

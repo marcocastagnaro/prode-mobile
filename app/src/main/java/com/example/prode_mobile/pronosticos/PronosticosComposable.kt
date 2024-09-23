@@ -21,6 +21,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,31 +46,56 @@ import com.example.prode_mobile.ui.theme.TitleColor
 import java.text.SimpleDateFormat
 import java.util.Date
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Pronosticos() {
     val viewModel = hiltViewModel<PronosticosViewModel>()
-    val rounds by viewModel.roundsList.collectAsState()
-    val loading by viewModel.loadingRounds.collectAsState()
+    val loadingRounds by viewModel.loadingRounds.collectAsState()
     val showRetry by viewModel.showRetry.collectAsState()
 
     val matchesLoading = viewModel.loadingMatches.collectAsState()
     val showMatchesRetry = viewModel.showMatchesRetry.collectAsState()
 
-    val listRoundNumber = rounds.map { round -> round.name.toInt() }
     val leagues = viewModel.leaguesAndSeasonList.collectAsState(initial = emptyList()).value
-    val fechas = listRoundNumber.map { FechaSelector(nroFecha = it) }
 
-    val matches = remember { mutableListOf<MatchCardData>() }  // Usar remember para mantener el estado de la lista
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    var isLeagueSelected by remember { mutableStateOf(false) }
+    var isDateAndLeagueSelected by remember { mutableStateOf(false) }
+    var selectedLeague by remember { mutableStateOf<String?>(null) }
 
-    var isLeagueSelected by remember {
-        mutableStateOf(false)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = DarkBackground,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            SelectYourLeagueTitle()
+
+            LeagueSelector(leagues, onLeagueSelected = { league ->
+                isLeagueSelected = true
+                selectedLeague = league
+                viewModel.retryLoadingRounds(league)
+            })
+
+            Log.i("League selected", "League selected: $selectedLeague")
+
+            AnimatedVisibility(visible = isLeagueSelected) {
+                ShowWhenLeagueIsSelected(loadingRounds, showRetry, viewModel,onDateAndLeagueSelected = { isSelected -> isDateAndLeagueSelected = isSelected }, selectedLeague = selectedLeague)
+            }
+
+            AnimatedVisibility(visible = isDateAndLeagueSelected) {
+                ShowWhenRoundSelected(matchesLoading = matchesLoading.value, showMatchesRetry = showMatchesRetry.value, viewModel = viewModel , selectedLeague = selectedLeague )
+            }
+        }
     }
-    var isDateAndLeagueSelected by remember {
-        mutableStateOf(false)
-    }
-    if (loading) {
+}
+
+@SuppressLint("StateFlowValueCalledInComposition")
+@Composable
+fun ShowWhenRoundSelected (matchesLoading : Boolean, showMatchesRetry : Boolean, viewModel : PronosticosViewModel, selectedLeague : String?) {
+    if (matchesLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier
@@ -78,7 +105,7 @@ fun Pronosticos() {
                 trackColor = PurpleGrey80,
             )
         }
-    } else if (showRetry) {
+    } else if (showMatchesRetry) {
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,116 +116,46 @@ fun Pronosticos() {
                 fontWeight = FontWeight.Bold,
             )
             Text(text = stringResource(id = R.string.retry_load_leagues))
-            Button(onClick = { viewModel.retryLoadingRounds() }) {
+            Button(onClick = { selectedLeague?.let { viewModel.retryLoadingMatches(league = it) } }) {
                 Text(text = stringResource(id = R.string.retry))
             }
         }
     } else {
-        Surface(
-        modifier = Modifier
-            .fillMaxSize(),
-        color = DarkBackground,
-    ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(
-                        rememberScrollState()
+        if (viewModel.scheduleList.value.isEmpty()) {
+            viewModel.retryLoadingMatches(league = selectedLeague!!)
+        }
+        val roundsData by viewModel.scheduleList.collectAsState()
+        Log.i("Pronosticos", "Rounds: $roundsData")
+        if (roundsData.isNotEmpty()) {
+            val matches = roundsData[0].fixtures.map { fixture ->
+                val team1 = fixture.participants[0]
+                val team2 = fixture.participants[1]
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fixture.starting_at)?.let {
+                    MatchCardData(
+                        fixture.id,
+                        team1.name,
+                        team2.name,
+                        fixture.starting_at,
+                        team1.image_path,
+                        team2.image_path,
+                        fixture.round_id,
+                        is_older = it
+                            .before(Date())
                     )
-            ) {
-                SelectYourLeagueTitle()
-                LeagueSelector(leagues, onLeagueSelected = { isLeagueSelected = true })
-                Log.i("League selected", "league selected: $isLeagueSelected")
-                AnimatedVisibility(visible = isLeagueSelected) {
-                    DateSelector(
-                        dates = fechas,
-                        isDateAndLeagueSelected = { isDateAndLeagueSelected = true },
-                        )
                 }
-                AnimatedVisibility(visible = isDateAndLeagueSelected) {
-                    if (matchesLoading.value) {
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .size(64.dp)
-                                    .align(Alignment.Center),
-                                color = PurpleGrey80,
-                                trackColor = PurpleGrey80,
-                            )
-                        }
-                    } else if (showMatchesRetry.value) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(
-                                10.dp,
-                                Alignment.CenterVertically
-                            ),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.retry),
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                            Text(text = stringResource(id = R.string.retry_load_leagues))
-                            Button(onClick = { viewModel.retryLoadingMatches(roundId = viewModel.roundValue.value) }) {
-                                Text(text = stringResource(id = R.string.retry))
-                            }
-                        }
-                    } else {
-                        val round = viewModel.roundValue.value
-                        if (viewModel.scheduleList.value.isEmpty()) {
-                            viewModel.retryLoadingMatches(round)
-                        }
-                        val roundsData by viewModel.scheduleList.collectAsState()
-                        Log.i("Pronosticos", "Rounds: $roundsData")
-                        if(roundsData.isNotEmpty()) {
-                            roundsData[0].fixtures.forEach { fixture ->
-                                val team1 = fixture.participants[0]
-                                val team2 = fixture.participants[1]
-                                val date = fixture.starting_at
-                                val urlTeam1 = team1.image_path
-                                val urlTeam2 = team2.image_path
-                                val nroFecha = fixture.round_id
-                                val fixtureDate: Date = dateFormat.parse(fixture.starting_at) // Convierte el String a Date
-                                val currentDate = Date()
-                                matches.add(
-                                    MatchCardData(
-                                        fixture.id,
-                                        team1.name,
-                                        team2.name,
-                                        date,
-                                        urlTeam1,
-                                        urlTeam2,
-                                        nroFecha,
-                                        fixtureDate.before(currentDate)
-                                    )
-                                )
-                            }
-                        }
+            }
 
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            matches.forEach { part ->
-                                MatchCard(
-                                    MatchCardData(
-                                        part.match_id,
-                                        team1 = part.team1,
-                                        team2 = part.team2,
-                                        part.date,
-                                        part.urlTeam1,
-                                        part.urlTeam2, 1, part.is_older
-                                    )
-                                ) {}
-                                Spacer(modifier = Modifier.size(24.dp))
-                            }
-                        }
+            Column(modifier = Modifier.padding(16.dp)) {
+                matches.forEach { match ->
+                    if (match != null) {
+                        MatchCard(match, viewModel)
                     }
+                    Spacer(modifier = Modifier.size(24.dp))
                 }
             }
         }
     }
 }
-
-
 
 
 @Composable
@@ -227,7 +184,48 @@ fun SelectYourLeagueTitle () {
         }
     }
 }
+@SuppressLint("StateFlowValueCalledInComposition")
+@Composable
+fun ShowWhenLeagueIsSelected(loadingRounds : Boolean, showRetry : Boolean, viewModel : PronosticosViewModel, onDateAndLeagueSelected: (Boolean) -> Unit, selectedLeague : String?) {
 
+    val rounds by viewModel.roundsList.collectAsState()
+
+    if (loadingRounds) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(64.dp)
+                    .align(Alignment.Center),
+                color = PurpleGrey80,
+                trackColor = PurpleGrey80,
+            )
+        }
+    } else if (showRetry) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(id = R.string.retry),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(text = stringResource(id = R.string.retry_load_leagues))
+            Button(onClick = { selectedLeague?.let { viewModel.retryLoadingRounds(league = it) } }) {
+                Text(text = stringResource(id = R.string.retry))
+            }
+        }
+    } else if (rounds.isNotEmpty()) {
+        val listRoundNumber = viewModel.roundsList.value.map { round -> round.name.toInt() }
+        val fechas = listRoundNumber.map { FechaSelector(nroFecha = it) }
+
+        DateSelector(
+            dates = fechas,
+            isDateAndLeagueSelected = { onDateAndLeagueSelected(true) },
+            retryMatches = { viewModel.retryLoadingMatches(league = selectedLeague!!) }
+        )
+    }
+}
 data class FechaSelector (
     val nroFecha: Int,
 )

@@ -24,9 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit) {
+fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit, retryMatches : () -> Unit) {
     val viewModel = hiltViewModel<PronosticosViewModel>()
-
     val context = LocalContext.current
     val dateNames = dates.map { date -> date.nroFecha }
     var expanded by remember { mutableStateOf(false) }
@@ -60,6 +59,7 @@ fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit
                         text = { Text(text = item.toString()) },
                         onClick = {
                             viewModel.saveRoundToDataStore(item.toString())
+                            retryMatches()
                             selectedText = item
                             expanded = false
                             isDateAndLeagueSelected()
