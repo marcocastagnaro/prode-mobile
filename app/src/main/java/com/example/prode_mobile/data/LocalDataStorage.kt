@@ -11,8 +11,10 @@ import kotlinx.coroutines.flow.map
 val Context.dataStore by preferencesDataStore(name = "PRODE_DATA_STORE")
 
 object PreferencesKeys {
-    val ROUND_SELECTED = stringPreferencesKey("round_selected")
     val SCORE_DATA = intPreferencesKey("score_data")
+    val USERNAME = stringPreferencesKey("username")
+    val COUNTRY = stringPreferencesKey("country")
+    val AGE = stringPreferencesKey("age")
 }
 
 suspend fun <T> saveToDataStore(context: Context, value: T, key: Preferences.Key<T>) {

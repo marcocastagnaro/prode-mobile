@@ -1,7 +1,9 @@
 package com.example.prode_mobile.leagues
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +31,7 @@ import com.example.prode_mobile.R
 import com.example.prode_mobile.ui.theme.BlackColor
 import com.example.prode_mobile.ui.theme.GreyBackground
 import com.example.prode_mobile.ui.theme.WhiteColor
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LeagueCard(
     league: LeagueData,
@@ -95,6 +98,7 @@ fun LeagueCard(
                     }
                 }
             } else {
+
                 IconButton(
                     onClick = {},
                     enabled = false
@@ -106,6 +110,7 @@ fun LeagueCard(
                     )
                 }
             }
+
         }
     }
 }

@@ -51,7 +51,6 @@ class PronosticosViewModel @Inject constructor(
     val showMatchesRetry = _showMatchesRetry.asStateFlow()
 
     private var _stagesList = MutableStateFlow(listOf<StageData>())
-    val stagesList = _stagesList.asStateFlow()
 
     private var _roundsList = MutableStateFlow(listOf<RoundData>())
     val roundsList = _roundsList.asStateFlow()
@@ -66,7 +65,6 @@ class PronosticosViewModel @Inject constructor(
     val score = _score.asStateFlow()
 
     private val _alreadyPlayedMatches = MutableStateFlow(listOf<RoundMatchData>())
-    val alreadyPlayedMatches=_alreadyPlayedMatches.asStateFlow()
 
     private val prode_database: ProdeMobileDatabase;
 
@@ -74,10 +72,8 @@ class PronosticosViewModel @Inject constructor(
         prode_database = ProdeMobileDatabase.getDatabase(context)
 
         viewModelScope.launch {
-
-
-            sumScore() // Sumar puntajes
-            getScoreFromDataStore() // Obtener puntaje almacenado
+            sumScore()
+            getScoreFromDataStore()
         }
     }
 
@@ -270,7 +266,6 @@ class PronosticosViewModel @Inject constructor(
                                 .find { it.id == result.matchId }
 
                             if (fixture != null) {
-                                Log.i("Fixture", fixture.toString())
                                 val scoreTeam1 = fixture.scores?.getOrNull(0)?.score
                                 val scoreTeam2 = fixture.scores?.getOrNull(1)?.score
 
@@ -330,9 +325,6 @@ class PronosticosViewModel @Inject constructor(
                         context = context,
                         onSuccess = { scheduleData ->
                             val playedRounds = scheduleData[0].rounds?.filter { it.finished } ?: emptyList()
-                            // Solo agarra los rounds que terminaron: es decir que si se esta jugando no se suma a los puntos,
-                            // pero si entras al partido particular si podes ver el resultado en tiempo real,
-                            // solamente no se suma a los puntos hasta que temrine la fecha entera
 
                             _alreadyPlayedMatches.tryEmit(_alreadyPlayedMatches.value + playedRounds)
 

@@ -22,31 +22,31 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
 import com.example.prode_mobile.pronosticos.PronosticosViewModel
+import com.example.prode_mobile.ui.theme.TitleBlueColor
 
 
 @Composable
 fun ScoreAndProfile() {
     val viewModel = hiltViewModel<PronosticosViewModel>()
+    val scoreAndProfileViewModel = hiltViewModel<ScoreAndProfileViewModel>()
     val score = viewModel.score.collectAsState()
     Surface (modifier = Modifier.fillMaxSize()) {
         Column {
-
             Text(
                 text = stringResource(id = R.string.score_and_profile), style = TextStyle(
                     fontSize = 60.sp,
                     fontFamily = FontFamily.Serif,
+                    color = TitleBlueColor
                 ), modifier = Modifier.padding(16.dp)
             )
             Spacer(modifier = Modifier.size(16.dp))
-
             Divider(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.size(16.dp))
-
-            Profile()
+            Profile(viewModel = scoreAndProfileViewModel)
             Spacer(modifier = Modifier.size(16.dp))
             Divider(
                 modifier = Modifier

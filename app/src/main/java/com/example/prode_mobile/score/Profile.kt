@@ -15,6 +15,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,15 +31,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.prode_mobile.R
+import com.example.prode_mobile.score.ScoreAndProfileViewModel
 import com.example.prode_mobile.ui.theme.BlackColor
 import com.example.prode_mobile.ui.theme.DarkerGreyColor
-
 @Composable
-fun Profile() {
-    var username by remember { mutableStateOf("Marco") }
-    var country by remember { mutableStateOf("Argentina") }
-    var age by remember { mutableStateOf("21") }
+fun Profile(viewModel: ScoreAndProfileViewModel) {
     var isEditing by remember { mutableStateOf(false) }
+
+    val username by viewModel.username.collectAsState()
+    val country by viewModel.country.collectAsState()
+    val age by viewModel.age.collectAsState()
 
     Surface(
         modifier = Modifier
@@ -53,9 +55,15 @@ fun Profile() {
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                cardInfo(R.string.username, username, isEditing) { newValue -> username = newValue }
-                cardInfo(R.string.country, country, isEditing) { newValue -> country = newValue }
-                cardInfo(R.string.age, age, isEditing) { newValue -> age = newValue }
+                cardInfo(R.string.username, username, isEditing) { newValue ->
+                    viewModel.saveUsernameToDataStore(newValue)
+                }
+                cardInfo(R.string.country, country, isEditing) { newValue ->
+                    viewModel.saveCountryToDataStore(newValue)
+                }
+                cardInfo(R.string.age, age, isEditing) { newValue ->
+                    viewModel.saveAgeToDataStore(newValue)
+                }
             }
 
             IconButton(
@@ -116,10 +124,4 @@ fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (S
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun ProfilePreview() {
-    Profile()
 }

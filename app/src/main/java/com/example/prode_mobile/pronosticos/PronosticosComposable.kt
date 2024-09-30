@@ -15,8 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-//import androidx.compose.material.icons.filled.
-
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -68,7 +66,7 @@ fun Pronosticos() {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            SelectYourLeagueTitle()
+            MakePredictionsTitle()
 
             LeagueSelector(leagues, onLeagueSelected = { league ->
                 isLeagueSelected = true
@@ -162,7 +160,7 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
 
 
 @Composable
-fun SelectYourLeagueTitle () {
+fun MakePredictionsTitle () {
     Surface(modifier = Modifier
         .fillMaxWidth()
         .height(140.dp), color = DarkerGreyColor,
