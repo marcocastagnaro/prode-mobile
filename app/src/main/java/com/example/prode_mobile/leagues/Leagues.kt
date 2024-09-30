@@ -70,7 +70,7 @@ fun Leagues() {
         ) {
             Text(
                 text = stringResource(id = R.string.retry),
-                fontSize = 20.sp,
+                fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(text = stringResource(id = R.string.retry_load_leagues))
@@ -86,7 +86,7 @@ fun Leagues() {
                 item {
                     Text(
                         text = stringResource(id = R.string.my_leagues), style =
-                        TextStyle(fontSize = 20.sp, color = BlackColor)
+                        TextStyle(fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp, color = BlackColor)
                     )
                 }
                 item {
@@ -109,7 +109,7 @@ fun Leagues() {
                 item {
                     Text(
                         text = stringResource(id =R.string.all_leagues),
-                        style = TextStyle(fontSize = 20.sp, color = BlackColor)
+                        style = TextStyle(fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp, color = BlackColor)
                     )
                     allLeaguesList.forEach { league ->
                         LeagueCard(league = league, false, true, viewModel)

@@ -72,14 +72,14 @@ fun LeagueCard(
                     text = league.name,
                     style = TextStyle(
                         color = BlackColor,
-                        fontSize = 16.sp
+                        fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp
                     )
                 )
                 Text(
                     text = "${stringResource(id = R.string.category)}: ${league.category}",
                     style = TextStyle(
                         color = BlackColor,
-                        fontSize = 16.sp
+                        fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp
                     )
                 )
             }
