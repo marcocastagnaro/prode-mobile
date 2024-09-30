@@ -14,13 +14,20 @@
     <string name ="save_button">Save</string>
 
     <string name="category">Category</string>
-<string name="all_leagues">All Leagues</string>
+    <string name="all_leagues">All Leagues</string>
     <string name="my_leagues">My Leagues</string>
     <string name="score_and_profile">Score &amp; Profile</string>
     <string name="my_score">My Score: </string>
     <string name="username" >Username: </string>
     <string name="country" >Country: </string>
     <string name="age" >Age: </string>
+
+    <string name="fail_loading_leagues">"Can't get leagues"</string>
+    <string name="fail_loading_seasons">"Can't get seasons"</string>
+    <string name="fail_loading_rounds">"Can't get rounds"</string>
+    <string name="fail_loading_matches">"Can't get matches"</string>
+    <string name="fail_loading_schedules">"Can't get schedules"</string>
+    <string name="fail_loading_stages">"Can't get stages"</string>
 
 
 </resources>

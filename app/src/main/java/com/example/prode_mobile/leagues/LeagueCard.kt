@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -113,4 +114,26 @@ fun LeagueCard(
 
         }
     }
+}
+
+
+@Preview
+@Composable
+fun LeagueCardPreview() {
+    LeagueCard(
+        league = LeagueData(
+            id = 1,
+            name = "Liga Argentina",
+            category = 2,
+            image_path = "https://cdn.sportmonks.com/images/countries/png/short/fr.png",
+            country_id = 1,
+            active = true,
+            seasonId = 1,
+            type = "league",
+            sub_type = "domestic",
+            sport = SportData("Football")
+        ),
+        myleague = false,
+        isAvailable = true
+    )
 }

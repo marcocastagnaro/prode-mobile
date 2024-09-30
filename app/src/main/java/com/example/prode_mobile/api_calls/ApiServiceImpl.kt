@@ -3,6 +3,7 @@ package com.example.prode_mobile.api_calls
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.ui.res.stringResource
 import com.example.prode_mobile.R
 import com.example.prode_mobile.leagues.LeagueData
 import com.example.prode_mobile.leagues.LeaguesData
@@ -57,7 +58,7 @@ class ApiServiceImpl @Inject constructor() {
             }
 
             override fun onFailure(call: Call<LeaguesData>, t: Throwable) {
-                Toast.makeText(context, "Can't get leagues", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.fail_loading_leagues), Toast.LENGTH_SHORT).show()
                 onFail()
                 loadingFinished()
             }
@@ -96,7 +97,7 @@ class ApiServiceImpl @Inject constructor() {
             }
 
             override fun onFailure(call: Call<SeasonsData>, t: Throwable) {
-                Toast.makeText(context, "Can't get leagues", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.fail_loading_seasons), Toast.LENGTH_SHORT).show()
                 onFail()
                 loadingFinished()
             }
@@ -139,7 +140,7 @@ class ApiServiceImpl @Inject constructor() {
             }
 
             override fun onFailure(call: Call<RoundsData>, t: Throwable) {
-                Toast.makeText(context, "Can't get leagues", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.fail_loading_rounds), Toast.LENGTH_SHORT).show()
                 onFail()
                 loadingFinished()
             }
@@ -178,7 +179,7 @@ class ApiServiceImpl @Inject constructor() {
             }
 
             override fun onFailure(call: Call<StagesData>, t: Throwable) {
-                Toast.makeText(context, "Can't get leagues", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.fail_loading_stages), Toast.LENGTH_SHORT).show()
                 onFail()
                 loadingFinished()
             }
@@ -200,8 +201,6 @@ class ApiServiceImpl @Inject constructor() {
 
         val service = retrofit.create(ApiService::class.java)
         val call: Call<SchedulesData> = service.getSchedule(seasonId)
-        Log.i("API Request", "URL: ${call.request().url}")
-        Log.i("API Request", "Method: ${call.request().method}")
 
         try {
             call.enqueue(object : Callback<SchedulesData> {
@@ -209,26 +208,20 @@ class ApiServiceImpl @Inject constructor() {
                     call: Call<SchedulesData>,
                     response: Response<SchedulesData>
                 ) {
-                    Log.i("API Response", "Response received")
                     loadingFinished()
                     if (response.isSuccessful) {
-                        Log.i("API Response", "Successful response")
-
                         response.body()?.let { scheduleData ->
                             onSuccess(scheduleData.data)
                         } ?: run {
                             onFailure(call, Throwable("Body is null"))
                         }
                     } else {
-                        Log.e("API Response", "Response is not successful: ${response.code()}")
-
                         onFailure(call, Throwable("Response is not successful"))
                     }
                 }
 
                 override fun onFailure(call: Call<SchedulesData>, t: Throwable) {
-                    Log.i("Hello world 2", "Hello world 2")
-                    Toast.makeText(context, "Can't get leagues", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.fail_loading_schedules), Toast.LENGTH_SHORT).show()
                     onFail()
                     loadingFinished()
                 }

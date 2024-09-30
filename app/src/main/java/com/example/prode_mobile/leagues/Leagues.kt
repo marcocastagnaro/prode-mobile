@@ -201,9 +201,3 @@ fun AddLeagueAction(
         )
     }
 }
-
-@Preview
-@Composable
-fun PreviewLeagues (){
-    Leagues()
-}

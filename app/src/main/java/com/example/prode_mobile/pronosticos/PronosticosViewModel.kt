@@ -259,92 +259,88 @@ class PronosticosViewModel @Inject constructor(
             if (allMatchesLoaded) {
                 _score.value = 0
                 prode_database.prodeResultDao().getAllProdeResults().collect { resultList ->
-                    if (resultList.isNotEmpty()) {
-                        for (result in resultList) {
-                            val fixture = _alreadyPlayedMatches.value
-                                .flatMap { it.fixtures }
-                                .find { it.id == result.matchId }
-
-                            if (fixture != null) {
-                                val scoreTeam1 = fixture.scores?.getOrNull(0)?.score
-                                val scoreTeam2 = fixture.scores?.getOrNull(1)?.score
-
-                                val winner = if (scoreTeam1 != null && scoreTeam2 != null) {
-                                    when {
-                                        scoreTeam1.goals > scoreTeam2.goals -> "local"
-                                        scoreTeam1.goals < scoreTeam2.goals -> "visitor"
-                                        else -> "draw"
-                                    }
-                                } else {
-                                    null
-                                }
-
-                                if (winner == result.winner) {
-                                    if (result.localGoals == scoreTeam1?.goals && result.visitorGoals == scoreTeam2?.goals) {
-                                        _score.value += 3
-                                    } else {
-                                        _score.value += 1
-                                    }
-                                    saveScoreToDataStore(_score.value)
-                                }
-                            }
-                        }
+                    resultList.forEach { result ->
+                        processMatchResult(result)
                     }
                 }
             }
         }
     }
-    private suspend fun loadAllExistingMatches(): Boolean = withContext(Dispatchers.IO) {
-        try {
-            val leagues = prode_database.leagueDao().getAllLeagues().asFlow().first()
 
-            _alreadyPlayedMatches.emit(emptyList())
+    private suspend fun processMatchResult(result: ProdeResult) {
+        val fixture = _alreadyPlayedMatches.value
+            .flatMap { it.fixtures }
+            .find { it.id == result.matchId }
 
-            val loadJobs = leagues.map { league ->
-                async {
-                    loadExistingMatches(league.name)
-                }
+        fixture?.let {
+            val scoreTeam1 = it.scores?.getOrNull(0)?.score
+            val scoreTeam2 = it.scores?.getOrNull(1)?.score
+
+            val winner = determineWinner(scoreTeam1, scoreTeam2)
+
+            if (winner == result.winner) {
+                _score.value += if (result.localGoals == scoreTeam1?.goals && result.visitorGoals == scoreTeam2?.goals) 3 else 1
+                saveScoreToDataStore(_score.value)
             }
-
-            loadJobs.awaitAll()
-            true
-        } catch (e: Exception) {
-            false
         }
     }
+
+    private fun determineWinner(scoreTeam1: ScoreMatchData?, scoreTeam2: ScoreMatchData?): String? {
+        return when {
+            scoreTeam1 == null || scoreTeam2 == null -> null
+            scoreTeam1.goals > scoreTeam2.goals -> "local"
+            scoreTeam1.goals < scoreTeam2.goals -> "visitor"
+            else -> "draw"
+        }
+    }
+    private suspend fun loadAllExistingMatches(): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val leagues = prode_database.leagueDao().getAllLeagues().asFlow().first()
+
+                _alreadyPlayedMatches.emit(emptyList())
+
+                val loadJobs = leagues.map { league ->
+                    async {
+                        loadExistingMatches(league.name)
+                    }
+                }
+
+                loadJobs.awaitAll()
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }
+    }
+
 
     private suspend fun loadExistingMatches(league: String) {
-        withContext(Dispatchers.IO) {
-            val leaguesList = prode_database.leagueDao().getAllLeagues().asFlow().first()
-            val season = leaguesList.find { it.name == league }
+        val leaguesList = prode_database.leagueDao().getAllLeagues().asFlow().first()
+        val season = leaguesList.find { it.name == league }
 
-            if (season != null) {
-                suspendCoroutine<Unit> { continuation ->
-                    apiService.getSchedule(
-                        seasonId = season.seasonId,
-                        context = context,
-                        onSuccess = { scheduleData ->
-                            val playedRounds = scheduleData[0].rounds?.filter { it.finished } ?: emptyList()
-
-                            _alreadyPlayedMatches.tryEmit(_alreadyPlayedMatches.value + playedRounds)
-
-                            continuation.resume(Unit)
-                        },
-                        onFail = {
-                            _showMatchesRetry.value = true
-                            continuation.resume(Unit)
-                        },
-                        loadingFinished = {
-                            _loadingMatches.value = false
-                        }
-                    )
-                }
-            } else {
-                _loadingMatches.value = false
-                _showMatchesRetry.value = true
+        season?.let {
+            suspendCoroutine<Unit> { continuation ->
+                apiService.getSchedule(
+                    seasonId = season.seasonId,
+                    context = context,
+                    onSuccess = { scheduleData ->
+                        val playedRounds = scheduleData[0].rounds?.filter { it.finished } ?: emptyList()
+                        _alreadyPlayedMatches.tryEmit(_alreadyPlayedMatches.value + playedRounds)
+                        continuation.resume(Unit)
+                    },
+                    onFail = {
+                        _showMatchesRetry.value = true
+                        continuation.resume(Unit)
+                    },
+                    loadingFinished = {
+                        _loadingMatches.value = false
+                    }
+                )
             }
+        } ?: run {
+            _loadingMatches.value = false
+            _showMatchesRetry.value = true
         }
     }
-
-
 }

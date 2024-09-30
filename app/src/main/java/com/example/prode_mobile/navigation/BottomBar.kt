@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BottomBar (onNavigate: (String) -> Unit) {
@@ -56,4 +57,10 @@ fun TabBarIconView(isSelected : Boolean, selectedIcon: ImageVector, unselectedIc
         Icon(imageVector = if (isSelected) selectedIcon else unselectedIcon, contentDescription = title)
         
     }
+}
+
+@Preview
+@Composable
+fun PreviewBottomBar() {
+    BottomBar(onNavigate = {})
 }

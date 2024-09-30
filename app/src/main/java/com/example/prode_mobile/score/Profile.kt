@@ -38,9 +38,19 @@ import com.example.prode_mobile.ui.theme.DarkerGreyColor
 fun Profile(viewModel: ScoreAndProfileViewModel) {
     var isEditing by remember { mutableStateOf(false) }
 
+    var tempUsername by remember { mutableStateOf(viewModel.username.value) }
+    var tempCountry by remember { mutableStateOf(viewModel.country.value) }
+    var tempAge by remember { mutableStateOf(viewModel.age.value) }
+
     val username by viewModel.username.collectAsState()
     val country by viewModel.country.collectAsState()
     val age by viewModel.age.collectAsState()
+
+    if (!isEditing) {
+        tempUsername = username
+        tempCountry = country
+        tempAge = age
+    }
 
     Surface(
         modifier = Modifier
@@ -55,19 +65,26 @@ fun Profile(viewModel: ScoreAndProfileViewModel) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                cardInfo(R.string.username, username, isEditing) { newValue ->
-                    viewModel.saveUsernameToDataStore(newValue)
+                cardInfo(R.string.username, tempUsername, isEditing) { newValue ->
+                    tempUsername = newValue
                 }
-                cardInfo(R.string.country, country, isEditing) { newValue ->
-                    viewModel.saveCountryToDataStore(newValue)
+                cardInfo(R.string.country, tempCountry, isEditing) { newValue ->
+                    tempCountry = newValue
                 }
-                cardInfo(R.string.age, age, isEditing) { newValue ->
-                    viewModel.saveAgeToDataStore(newValue)
+                cardInfo(R.string.age, tempAge, isEditing) { newValue ->
+                    tempAge = newValue
                 }
             }
 
             IconButton(
-                onClick = { isEditing = !isEditing },
+                onClick = {
+                    if (isEditing) {
+                        viewModel.saveUsernameToDataStore(tempUsername)
+                        viewModel.saveCountryToDataStore(tempCountry)
+                        viewModel.saveAgeToDataStore(tempAge)
+                    }
+                    isEditing = !isEditing
+                },
                 modifier = Modifier.padding(16.dp)
             ) {
                 Icon(

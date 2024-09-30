@@ -1,6 +1,5 @@
 package com.example.prode_mobile.pronosticos
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -50,18 +49,12 @@ import com.example.prode_mobile.ui.theme.TitleBlueColor
 import com.example.prode_mobile.ui.theme.WrongPrediction
 import kotlinx.coroutines.launch
 
-@SuppressLint("StateFlowValueCalledInComposition", "CoroutineCreationDuringComposition",
-    "SuspiciousIndentation"
-)
 @Composable
 fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
               onCardClick: () -> Unit) {
     val viewModel = hiltViewModel<PronosticosViewModel>()
     var scoreTeam1 by remember { mutableStateOf(0) }
     var scoreTeam2 by remember { mutableStateOf(0) }
-    var isMatchCardClickeable by remember {
-        mutableStateOf(false)
-    }
     var matchHeight by remember {
         mutableStateOf(100.dp)
     }
@@ -359,20 +352,5 @@ fun SavePronosticoToDatabase (matchId: Int, scoreTeam1: Int, scoreTeam2: Int, vi
     }, modifier = Modifier.height(24.dp)) {
         Text(text = stringResource(id = R.string.save_button), style = TextStyle(fontSize = 8.sp))
     }
-
-}
-
-@Preview
-@Composable
-fun PreviewCard() {
-    MatchCard( MatchCardData(
-        2,
-        "Manchester City",
-        "Chelsea",
-        "30-oct",
-        "https://cdn.sportmonks.com/images/soccer/teams/6/390.png",
-        "https://cdn.sportmonks.com/images/soccer/teams/6/390.png", 1, true),
-        true,
-        {})
 
 }

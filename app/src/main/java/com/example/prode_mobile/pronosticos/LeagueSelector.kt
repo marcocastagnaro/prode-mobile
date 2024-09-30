@@ -22,8 +22,6 @@ import com.example.prode_mobile.data.LeagueAndSeason
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LeagueSelector(leagues: List<LeagueAndSeason>, onLeagueSelected: (String) -> Unit) {
-    val context = LocalContext.current
-
     val leagueNames = leagues.map { l -> l.name }
 
     var expanded by remember { mutableStateOf(false) }
