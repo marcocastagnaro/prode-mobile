@@ -34,7 +34,7 @@ fun MatchNameAndImage (urlImage: String, name: String, modifier: Modifier) {
         AsyncImage(
             model = urlImage,
             contentDescription = "",
-            modifier = Modifier.size(50.dp)
+            modifier = Modifier.size(dimensionResource(id = R.dimen.team_image_size))
         ) //Place holder para cuando la imagen carga y error cuando falla
     }
 }

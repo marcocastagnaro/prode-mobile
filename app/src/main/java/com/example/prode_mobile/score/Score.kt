@@ -36,7 +36,8 @@ fun Score(score: State<Int>) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                dimensionResource(id = R.dimen.large_padding))
+                dimensionResource(id = R.dimen.large_padding)
+            )
             .border(2.dp, color = BlackColor, shape = RoundedCornerShape(13.dp))
             .background(DarkerGreyColor),
         shape = RoundedCornerShape(12.8.dp),
@@ -47,7 +48,7 @@ fun Score(score: State<Int>) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(25.dp)
+                .padding(dimensionResource(id = R.dimen.larger_padding))
         ) {
             Text(
                 text = stringResource(id = R.string.my_score),
@@ -56,12 +57,12 @@ fun Score(score: State<Int>) {
                     fontWeight = FontWeight.Bold,
                     color = BlackColor
                 ),
-                modifier = Modifier.padding(bottom = 13.dp)
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
             )
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .border(3.dp, WhiteColor, shape= RoundedCornerShape(10.dp))
+                    .border(3.dp, WhiteColor, shape = RoundedCornerShape(10.dp))
                     .background(BlackColor)
                     .padding(dimensionResource(id = R.dimen.large_padding))
                     .fillMaxWidth(0.5f)

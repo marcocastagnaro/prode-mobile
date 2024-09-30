@@ -56,7 +56,7 @@ fun Profile(viewModel: ScoreAndProfileViewModel) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(dimensionResource(id = R.dimen.large_padding)),
         color = DarkerGreyColor,
         shape = RoundedCornerShape(10.dp)
     ) {
@@ -86,7 +86,7 @@ fun Profile(viewModel: ScoreAndProfileViewModel) {
                     }
                     isEditing = !isEditing
                 },
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(dimensionResource(R.dimen.large_padding))
             ) {
                 Icon(
                     imageVector = if (isEditing) Icons.Default.Save else Icons.Default.Edit,
@@ -106,7 +106,7 @@ fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (S
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(20.dp, 4.dp)
+                .padding(dimensionResource(id = R.dimen.larger_padding), dimensionResource(id = R.dimen.small_padding))
         ) {
             Text(
                 text = stringResource(id = subtitle),

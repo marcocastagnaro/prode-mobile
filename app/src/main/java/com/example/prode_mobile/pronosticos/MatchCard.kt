@@ -51,15 +51,16 @@ import com.example.prode_mobile.ui.theme.TitleBlueColor
 import com.example.prode_mobile.ui.theme.WrongPrediction
 import kotlinx.coroutines.launch
 
-@SuppressLint("StateFlowValueCalledInComposition")
+@SuppressLint("StateFlowValueCalledInComposition", "SuspiciousIndentation")
 @Composable
 fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
               onCardClick: () -> Unit) {
     val viewModel = hiltViewModel<PronosticosViewModel>()
     var scoreTeam1 by remember { mutableStateOf(0) }
     var scoreTeam2 by remember { mutableStateOf(0) }
+    val initialHeight = dimensionResource(id = R.dimen.match_card_initial_height)
     var matchHeight by remember {
-        mutableStateOf(100.dp)
+        mutableStateOf(initialHeight)
     }
     var isLoading by remember { mutableStateOf(true) }
 
@@ -134,7 +135,6 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                 )
             }
 
-
             Spacer(modifier = Modifier.weight(1f))
             if (isOpen) {
                 matchHeight = dimensionResource(id =R.dimen.match_card_expanded_height)
@@ -167,7 +167,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.default_spacer)))
                     SavePronosticoToDatabase(
                         matchId = matchData.match_id,
                         scoreTeam1 = scoreTeam1,
@@ -254,7 +254,7 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
             fontSize = 18.sp,
             fontFamily = FontFamily.Monospace
         ),    )
-    Spacer(modifier = Modifier.height(10.dp))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_spacer)))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -307,7 +307,7 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
             fontFamily = FontFamily.Monospace
         ),
     )
-    Spacer(modifier = Modifier.height(10.dp))
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_spacer)))
 
     Row(
         modifier = Modifier.fillMaxWidth(),

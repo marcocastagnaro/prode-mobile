@@ -5,8 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -68,7 +67,7 @@ fun Leagues() {
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(dimensionResource(id = R.dimen.loading_box))
                     .align(Alignment.Center),
                 color = PurpleGrey80,
                 trackColor = PurpleGrey80,
@@ -91,7 +90,9 @@ fun Leagues() {
         }
     } else {
         Surface {
-            LazyColumn(modifier = Modifier.padding(16.dp)) {
+            LazyColumn(modifier = Modifier.padding(
+                dimensionResource(id = R.dimen.large_padding)
+            )) {
                 item {
                     Text(
                         text = stringResource(id = R.string.my_leagues), style =
@@ -109,7 +110,9 @@ fun Leagues() {
                 item {
                     Divider(
                         modifier = Modifier
-                            .padding(8.dp)
+                            .padding(
+                                dimensionResource(id = R.dimen.default_padding)
+                            )
                             .fillMaxWidth()
                     )
                 }

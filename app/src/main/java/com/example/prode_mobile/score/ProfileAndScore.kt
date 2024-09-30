@@ -41,15 +41,15 @@ fun ScoreAndProfile() {
                 ), modifier = Modifier.padding(
                     dimensionResource(id = R.dimen.large_padding))
             )
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
             Divider(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.default_padding))
                     .fillMaxWidth()
             )
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
             Profile(viewModel = scoreAndProfileViewModel)
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
             Divider(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.default_padding))

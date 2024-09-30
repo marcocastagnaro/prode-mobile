@@ -17,9 +17,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.prode_mobile.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +35,8 @@ fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(32.dp, 0.dp)
+            .padding(dimensionResource(id = R.dimen.extra_large_padding), 0.dp)
+
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,

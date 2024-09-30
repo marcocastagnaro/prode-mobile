@@ -6,6 +6,7 @@
     <dimen name="match_card_width">400.dp</dimen>
     <dimen name="march_box_result_size">40.dp</dimen>
     <dimen name="text_field_width">90.dp</dimen>
+    <dimen name="team_image_size">50.dp</dimen>
     <dimen name ="save_button_height">24.dp</dimen>
 
 </resources>

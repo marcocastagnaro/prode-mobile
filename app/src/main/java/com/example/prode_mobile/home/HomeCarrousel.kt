@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -56,7 +57,9 @@ fun MyCarrousel(){
         ) {
             carrouselItems.forEach { it ->
                 Box(modifier = Modifier.size(500.dp)) {
-                    Column (modifier = Modifier.padding(8.dp)) {
+                    Column (modifier = Modifier.padding(
+                        dimensionResource(id = R.dimen.default_padding)
+                    )) {
                         Image(
                             painter = it.image,
                             contentDescription = it.title,

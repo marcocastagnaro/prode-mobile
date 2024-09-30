@@ -96,7 +96,7 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(dimensionResource(id = R.dimen.loading_box))
                     .align(Alignment.Center),
                 color = PurpleGrey80,
                 trackColor = PurpleGrey80,
@@ -197,7 +197,7 @@ fun ShowWhenLeagueIsSelected(loadingRounds : Boolean, showRetry : Boolean, viewM
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(dimensionResource(id = R.dimen.loading_box))
                     .align(Alignment.Center),
                 color = PurpleGrey80,
                 trackColor = PurpleGrey80,

@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +43,8 @@ fun LeagueCard(
 ) {
     Surface(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(
+                dimensionResource(id = R.dimen.default_padding))
             .background(WhiteColor)
             .height(70.dp)
             .fillMaxWidth()
@@ -52,7 +54,8 @@ fun LeagueCard(
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(
+                dimensionResource(id = R.dimen.large_padding)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
