@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="loading_box">64.dp</dimen>
+    <dimen name="title_surface_size">180.dp</dimen>
+    <dimen name="icon_title_size">48.dp</dimen>
 </resources>

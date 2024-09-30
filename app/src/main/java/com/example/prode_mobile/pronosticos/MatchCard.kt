@@ -96,7 +96,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
             .clickable { onCardClick() },
         color = backgroundColor,
         shape = MaterialTheme.shapes.medium,
-        shadowElevation = 8.dp,
+        shadowElevation = dimensionResource(id = R.dimen.shadow_elevation),
     ) {
         matchHeight = dimensionResource(id = R.dimen.match_card_initial_height)
         Column(
@@ -122,7 +122,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                     style = TextStyle(
                         fontWeight = FontWeight.Black,
                         color = TitleBlueColor,
-                        fontSize = 12.sp,
+                        fontSize = dimensionResource(id = R.dimen.medium_font_size).value.sp,
                         fontFamily = FontFamily.Monospace
                     ),
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -150,7 +150,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                             label = {
                                 Text(
                                     text = matchData.team1,
-                                    style = TextStyle(fontSize = 8.sp)
+                                    style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
                                 )
                             }
                         )
@@ -161,7 +161,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                             label = {
                                 Text(
                                     text = matchData.team2,
-                                    style = TextStyle(fontSize = 8.sp)
+                                    style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
                                 )
                             }
                         )
@@ -251,7 +251,7 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
         style = TextStyle(
             fontWeight = FontWeight.Black,
             color = TitleBlueColor,
-            fontSize = 18.sp,
+            fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
             fontFamily = FontFamily.Monospace
         ),    )
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_spacer)))
@@ -271,7 +271,7 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
                 Text(
                     text = localGoals.value.toString(),
                     style = TextStyle(
-                        fontSize = 24.sp,
+                        fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
                         fontWeight = FontWeight.Bold
                     ),
                     textAlign = TextAlign.Center
@@ -287,7 +287,7 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
                 Text(
                     text = visitorGoals.value.toString(),
                     style = TextStyle(
-                        fontSize = 24.sp,
+                        fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
                         fontWeight = FontWeight.Bold
                     ),
                     textAlign = TextAlign.Center
@@ -303,7 +303,7 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
         style = TextStyle(
             fontWeight = FontWeight.Black,
             color = TitleBlueColor,
-            fontSize = 18.sp,
+            fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
             fontFamily = FontFamily.Monospace
         ),
     )
@@ -323,7 +323,7 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
             Text(
                 text = scoreTeam1.goals.toString() ?: "0",
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
                     fontWeight = FontWeight.Bold
                 ),
                 textAlign = TextAlign.Center
@@ -339,7 +339,7 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
             Text(
                 text = scoreTeam2.goals.toString() ?: "0",
                 style = TextStyle(
-                    fontSize = 24.sp,
+                    fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
                     fontWeight = FontWeight.Bold
                 ),
                 textAlign = TextAlign.Center
@@ -353,7 +353,7 @@ fun SavePronosticoToDatabase (matchId: Int, scoreTeam1: Int, scoreTeam2: Int, vi
     Button(onClick = {
         viewModel.savePronostico(matchId, scoreTeam1, scoreTeam2, winner)
     }, modifier = Modifier.height(dimensionResource(id = R.dimen.save_button_height))) {
-        Text(text = stringResource(id = R.string.save_button), style = TextStyle(fontSize = 8.sp))
+        Text(text = stringResource(id = R.string.save_button), style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp))
     }
 
 }

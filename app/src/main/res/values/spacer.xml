@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_spacer">16.dp</dimen>
+    <dimen name="larger_spacer">24.dp</dimen>
     <dimen name="small_spacer">10.dp</dimen>
+    <dimen name="spacer_weight">1.f</dimen>
 </resources>

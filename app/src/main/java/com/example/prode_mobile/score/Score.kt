@@ -38,10 +38,14 @@ fun Score(score: State<Int>) {
             .padding(
                 dimensionResource(id = R.dimen.large_padding)
             )
-            .border(2.dp, color = BlackColor, shape = RoundedCornerShape(13.dp))
+            .border(
+                2.dp,
+                color = BlackColor,
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape))
+            )
             .background(DarkerGreyColor),
-        shape = RoundedCornerShape(12.8.dp),
-        shadowElevation = 6.dp
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape)),
+        shadowElevation = dimensionResource(id = R.dimen.shadow_elevation_score)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -53,7 +57,7 @@ fun Score(score: State<Int>) {
             Text(
                 text = stringResource(id = R.string.my_score),
                 style = TextStyle(
-                    fontSize = 38.sp,
+                    fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
                     fontWeight = FontWeight.Bold,
                     color = BlackColor
                 ),
@@ -70,7 +74,7 @@ fun Score(score: State<Int>) {
                 Text(
                     text = score.value.toString(),
                     style = TextStyle(
-                        fontSize = 60.sp,
+                        fontSize = dimensionResource(id = R.dimen.title_font_size).value.sp,
                         fontWeight = FontWeight.Bold,
                         color = WhiteColor
                     )

@@ -44,9 +44,10 @@ fun LeagueCard(
     Surface(
         modifier = Modifier
             .padding(
-                dimensionResource(id = R.dimen.default_padding))
+                dimensionResource(id = R.dimen.default_padding)
+            )
             .background(WhiteColor)
-            .height(70.dp)
+            .height(dimensionResource(id = R.dimen.league_card_height))
             .fillMaxWidth()
             .clickable(enabled = isAvailable) {}, // clickable only if available
         shape = RoundedCornerShape(8.dp),
@@ -61,7 +62,7 @@ fun LeagueCard(
             AsyncImage(
                 model = league.image_path,
                 contentDescription = "League Image",
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(dimensionResource(id = R.dimen.league_image_size))
             ) // Placeholder para cuando la imagen carga y error cuando falla
 
             Spacer(modifier = Modifier.weight(0.2f))

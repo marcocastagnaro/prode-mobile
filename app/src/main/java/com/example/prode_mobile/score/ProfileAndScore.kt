@@ -35,7 +35,7 @@ fun ScoreAndProfile() {
         Column {
             Text(
                 text = stringResource(id = R.string.score_and_profile), style = TextStyle(
-                    fontSize = 60.sp,
+                    fontSize = dimensionResource(id = R.dimen.title_font_size).value.sp,
                     fontFamily = FontFamily.Serif,
                     color = TitleBlueColor
                 ), modifier = Modifier.padding(

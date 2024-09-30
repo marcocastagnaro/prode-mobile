@@ -90,7 +90,7 @@ fun Pronosticos() {
 @SuppressLint("StateFlowValueCalledInComposition", "SimpleDateFormat")
 @Composable
 fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, viewModel: PronosticosViewModel, selectedLeague: String?) {
-    var selectedMatchId by remember { mutableStateOf<Int?>(null) } // Estado central para la tarjeta seleccionada
+    var selectedMatchId by remember { mutableStateOf<Int?>(null) }
 
     if (matchesLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -109,7 +109,7 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
         ) {
             Text(
                 text = stringResource(id = R.string.retry),
-                fontSize = 20.sp,
+                fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(text = stringResource(id = R.string.retry_load_matches))
@@ -151,7 +151,7 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
                             },
                         )
                     }
-                    Spacer(modifier = Modifier.size(24.dp))
+                    Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.larger_spacer)))
                 }
             }
         }
@@ -162,16 +162,18 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
 
 @Composable
 fun MakePredictionsTitle () {
-    Surface(modifier = Modifier
-        .fillMaxWidth()
-        .height(140.dp), color = DarkerGreyColor,
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(id = R.dimen.make_predictions_title_surface_size)),
+        color = DarkerGreyColor,
     ) {
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             Text(
                 text = stringResource(id = R.string.pronsoticos_title), style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     color = TitleBlueColor,
-                    fontSize = 32.sp,
+                    fontSize = dimensionResource(id = R.dimen.xxlarge_font_size).value.sp,
                     fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding))
             )
@@ -179,7 +181,7 @@ fun MakePredictionsTitle () {
                 text = stringResource(id = R.string.pronsoticos_subtitle), style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     color = TitleBlueColor,
-                    fontSize = 16.sp,
+                    fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
                     fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)
                 )
@@ -210,7 +212,7 @@ fun ShowWhenLeagueIsSelected(loadingRounds : Boolean, showRetry : Boolean, viewM
         ) {
             Text(
                 text = stringResource(id = R.string.retry),
-                fontSize = 20.sp,
+                fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(text = stringResource(id = R.string.retry_load_rounds))

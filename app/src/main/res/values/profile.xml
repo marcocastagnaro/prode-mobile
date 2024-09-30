@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="shadow_elevation_score">6.dp</dimen>
+    <dimen name="rounded_corner_shape">13.dp</dimen>
+    <dimen name="edit_icon_size">40.dp</dimen>
+</resources>

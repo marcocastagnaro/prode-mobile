@@ -58,7 +58,7 @@ fun Profile(viewModel: ScoreAndProfileViewModel) {
             .fillMaxWidth()
             .padding(dimensionResource(id = R.dimen.large_padding)),
         color = DarkerGreyColor,
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape))
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -92,7 +92,7 @@ fun Profile(viewModel: ScoreAndProfileViewModel) {
                     imageVector = if (isEditing) Icons.Default.Save else Icons.Default.Edit,
                     contentDescription = if (isEditing) "Save" else "Edit",
                     tint = BlackColor,
-                    modifier = Modifier.size(40.dp)
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.edit_icon_size))
                 )
             }
         }
@@ -111,7 +111,7 @@ fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (S
             Text(
                 text = stringResource(id = subtitle),
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
                     fontFamily = FontFamily.Serif,
                     fontStyle = FontStyle.Italic
                 ),
@@ -122,7 +122,7 @@ fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (S
                     value = value,
                     onValueChange = onValueChange,
                     textStyle = TextStyle(
-                        fontSize = 16.sp,
+                        fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
                         fontFamily = FontFamily.Serif
                     ),
                     modifier = Modifier
@@ -133,7 +133,7 @@ fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (S
                 Text(
                     text = value,
                     style = TextStyle(
-                        fontSize = 16.sp,
+                        fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
                         fontFamily = FontFamily.Serif
                     ),
                     modifier = Modifier.padding(dimensionResource(id = R.dimen.default_padding))
