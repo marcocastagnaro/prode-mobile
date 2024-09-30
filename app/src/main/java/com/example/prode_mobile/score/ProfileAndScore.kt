@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -37,12 +38,13 @@ fun ScoreAndProfile() {
                     fontSize = 60.sp,
                     fontFamily = FontFamily.Serif,
                     color = TitleBlueColor
-                ), modifier = Modifier.padding(16.dp)
+                ), modifier = Modifier.padding(
+                    dimensionResource(id = R.dimen.large_padding))
             )
             Spacer(modifier = Modifier.size(16.dp))
             Divider(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(dimensionResource(id = R.dimen.default_padding))
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.size(16.dp))
@@ -50,7 +52,7 @@ fun ScoreAndProfile() {
             Spacer(modifier = Modifier.size(16.dp))
             Divider(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(dimensionResource(id = R.dimen.default_padding))
                     .fillMaxWidth()
             )
             Score(score)

@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -139,7 +140,7 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
                 }
             }
 
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding))) {
                 matches.forEach { match ->
                     if (match != null) {
                         MatchCard(
@@ -172,7 +173,7 @@ fun MakePredictionsTitle () {
                     color = TitleBlueColor,
                     fontSize = 32.sp,
                     fontFamily = FontFamily.SansSerif
-                ), modifier = Modifier.padding(16.dp)
+                ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding))
             )
             Text(
                 text = stringResource(id = R.string.pronsoticos_subtitle), style = TextStyle(
@@ -180,7 +181,8 @@ fun MakePredictionsTitle () {
                     color = TitleBlueColor,
                     fontSize = 16.sp,
                     fontFamily = FontFamily.SansSerif
-                ), modifier = Modifier.padding(16.dp)
+                ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)
+                )
             )
         }
     }

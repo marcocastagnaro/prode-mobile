@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="match_card_initial_height">100.dp</dimen>
+    <dimen name="match_card_expanded_height">220.dp</dimen>
+    <dimen name="match_card_extra_expanded_height">300.dp</dimen>
+    <dimen name="match_card_width">400.dp</dimen>
+    <dimen name="march_box_result_size">40.dp</dimen>
+    <dimen name="text_field_width">90.dp</dimen>
+    <dimen name ="save_button_height">24.dp</dimen>
+
+</resources>

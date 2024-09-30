@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -100,7 +101,7 @@ fun Profile(viewModel: ScoreAndProfileViewModel) {
 
 @Composable
 fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (String) -> Unit) {
-    Column(modifier = Modifier.padding(8.dp)) {
+    Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.default_padding))) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -114,7 +115,7 @@ fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (S
                     fontFamily = FontFamily.Serif,
                     fontStyle = FontStyle.Italic
                 ),
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.default_padding))
             )
             if (isEditing) {
                 BasicTextField(
@@ -125,9 +126,8 @@ fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (S
                         fontFamily = FontFamily.Serif
                     ),
                     modifier = Modifier
-                        .padding(8.dp)
                         .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
-                        .padding(8.dp)
+                        .padding(dimensionResource(id = R.dimen.default_padding))
                 )
             } else {
                 Text(
@@ -136,7 +136,7 @@ fun cardInfo(subtitle: Int, value: String, isEditing: Boolean, onValueChange: (S
                         fontSize = 16.sp,
                         fontFamily = FontFamily.Serif
                     ),
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.default_padding))
                 )
             }
         }

@@ -1,5 +1,6 @@
 package com.example.prode_mobile.pronosticos
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -49,6 +51,7 @@ import com.example.prode_mobile.ui.theme.TitleBlueColor
 import com.example.prode_mobile.ui.theme.WrongPrediction
 import kotlinx.coroutines.launch
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
               onCardClick: () -> Unit) {
@@ -87,24 +90,24 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
     val cardHeight by animateDpAsState(targetValue = matchHeight)
     Surface(
         modifier = Modifier
-            .width(400.dp)
+            .width(dimensionResource(id = R.dimen.match_card_width))
             .height(cardHeight)
             .clickable { onCardClick() },
         color = backgroundColor,
         shape = MaterialTheme.shapes.medium,
         shadowElevation = 8.dp,
     ) {
-        matchHeight = 100.dp
+        matchHeight = dimensionResource(id = R.dimen.match_card_initial_height)
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(dimensionResource(id = R.dimen.large_padding)),
             horizontalAlignment = Alignment.Start
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp),
+                    .padding(dimensionResource(id = R.dimen.default_padding)),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 MatchNameAndImage(
@@ -134,7 +137,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
 
             Spacer(modifier = Modifier.weight(1f))
             if (isOpen) {
-                matchHeight = 220.dp
+                matchHeight = dimensionResource(id =R.dimen.match_card_expanded_height)
                 if (!matchData.is_older && !isLoading) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -143,7 +146,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                         TextField(
                             value = scoreTeam1.toString(),
                             onValueChange = { scoreTeam1 = it.toIntOrNull() ?: 0 },
-                            modifier = Modifier.width(90.dp),
+                            modifier = Modifier.width(dimensionResource(id = R.dimen.text_field_width)),
                             label = {
                                 Text(
                                     text = matchData.team1,
@@ -154,7 +157,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                         TextField(
                             value = scoreTeam2.toString(),
                             onValueChange = { scoreTeam2 = it.toIntOrNull() ?: 0 },
-                            modifier = Modifier.width(90.dp),
+                            modifier = Modifier.width(dimensionResource(id = R.dimen.text_field_width)),
                             label = {
                                 Text(
                                     text = matchData.team2,
@@ -190,7 +193,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                         null
                     }
                         if (viewModel.isMatchInDB.value) {
-                            matchHeight = 280.dp
+                            matchHeight = dimensionResource(id = R.dimen.match_card_extra_expanded_height)
                             LaunchedEffect(matchData.match_id) {
                                 val prodeResult =
                                     viewModel.getProdeResultForMatch(matchData.match_id)
@@ -215,7 +218,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                                     }
                                 }
                             }
-                            Column(modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.SpaceEvenly) {
+                            Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.default_padding)), verticalArrangement = Arrangement.SpaceEvenly) {
                                 ShowPredictions(
                                     backgroundColor = backgroundColor,
                                     localGoals = localGoals,
@@ -230,7 +233,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                             }
                         }
                     else {
-                        matchHeight = 200.dp
+                        matchHeight = dimensionResource(id = R.dimen.match_card_expanded_height)
                             if (score_team_1 != null && score_team_2 != null) {
                                 ShowRealResults(scoreTeam1 = score_team_1, scoreTeam2 = score_team_2 )
                             }
@@ -260,9 +263,9 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
         ) {
             Box(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(dimensionResource(id = R.dimen.march_box_result_size))
                     .border(2.dp, BlackColor)
-                    .padding(8.dp),
+                    .padding(dimensionResource(id = R.dimen.default_padding)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -276,9 +279,9 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
             }
             Box(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(dimensionResource(id = R.dimen.march_box_result_size))
                     .border(2.dp, BlackColor)
-                    .padding(8.dp),
+                    .padding(dimensionResource(id = R.dimen.default_padding)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -312,9 +315,9 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
     ) {
         Box(
             modifier = Modifier
-                .size(40.dp)
+                .size(dimensionResource(id = R.dimen.march_box_result_size))
                 .border(2.dp, BlackColor)
-                .padding(8.dp),
+                .padding(dimensionResource(id = R.dimen.default_padding)),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -328,9 +331,9 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
         }
         Box(
             modifier = Modifier
-                .size(40.dp)
+                .size(dimensionResource(id = R.dimen.march_box_result_size))
                 .border(2.dp, BlackColor)
-                .padding(8.dp),
+                .padding(dimensionResource(id = R.dimen.default_padding)),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -349,7 +352,7 @@ fun SavePronosticoToDatabase (matchId: Int, scoreTeam1: Int, scoreTeam2: Int, vi
     val winner = if (scoreTeam1 > scoreTeam2) "local" else if (scoreTeam1 < scoreTeam2) "visitor" else "draw"
     Button(onClick = {
         viewModel.savePronostico(matchId, scoreTeam1, scoreTeam2, winner)
-    }, modifier = Modifier.height(24.dp)) {
+    }, modifier = Modifier.height(dimensionResource(id = R.dimen.save_button_height))) {
         Text(text = stringResource(id = R.string.save_button), style = TextStyle(fontSize = 8.sp))
     }
 

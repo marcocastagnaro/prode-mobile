@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +35,8 @@ fun Score(score: State<Int>) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(13.dp)
+            .padding(
+                dimensionResource(id = R.dimen.large_padding))
             .border(2.dp, color = BlackColor, shape = RoundedCornerShape(13.dp))
             .background(DarkerGreyColor),
         shape = RoundedCornerShape(12.8.dp),
@@ -61,7 +63,7 @@ fun Score(score: State<Int>) {
                 modifier = Modifier
                     .border(3.dp, WhiteColor, shape= RoundedCornerShape(10.dp))
                     .background(BlackColor)
-                    .padding(16.dp)
+                    .padding(dimensionResource(id = R.dimen.large_padding))
                     .fillMaxWidth(0.5f)
             ) {
                 Text(
