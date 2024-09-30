@@ -1,7 +1,6 @@
 package com.example.prode_mobile.pronosticos
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -14,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.prode_mobile.ui.theme.TitleColor
+import com.example.prode_mobile.ui.theme.TitleBlueColor
 
 @Composable
 fun MatchNameAndImage (urlImage: String, name: String, modifier: Modifier) {
@@ -23,7 +22,7 @@ fun MatchNameAndImage (urlImage: String, name: String, modifier: Modifier) {
             text = name,
             style = TextStyle(
                 fontWeight = FontWeight.Black,
-                color = TitleColor,
+                color = TitleBlueColor,
                 fontSize = 10.sp,
                 fontFamily = FontFamily.SansSerif
             ),

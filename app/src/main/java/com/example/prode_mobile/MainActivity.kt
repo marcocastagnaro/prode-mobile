@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.prode_mobile.navigation.BottomBar
 import com.example.prode_mobile.navigation.NavHostComposable
-import com.example.prode_mobile.navigation.TopBar
 import com.example.prode_mobile.ui.theme.ProdemobileTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,11 +23,11 @@ class MainActivity : ComponentActivity() {
             ProdemobileTheme{
                 Surface (modifier = Modifier.fillMaxSize(),color = MaterialTheme.colorScheme.background) {
                     Scaffold(
-                        topBar = {
-                            TopBar(
-                                navController = navController,
-                            )
-                        },
+//                      ´  topBar = {
+//                            TopBar(
+//                                navController = navController,
+//                            )
+//                        },
                         bottomBar = {
                             BottomBar { navController.navigate(it) }
                         },

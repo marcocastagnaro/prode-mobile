@@ -10,8 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.prode_mobile.home.Home
-import com.example.prode_mobile.home.HomeCarrousel
 import com.example.prode_mobile.leagues.LeagueViewModel
 import com.example.prode_mobile.leagues.Leagues
 import com.example.prode_mobile.pronosticos.Pronosticos
@@ -23,14 +21,11 @@ import com.example.prode_mobile.score.ScoreAndProfile
 fun NavHostComposable (innerPadding : PaddingValues, navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = ProdeScreen.Home.name,
+        startDestination = ProdeScreen.Pronosticos.name,
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
     ){
-        composable(route = ProdeScreen.Home.name) {
-            HomeCarrousel()
-        }
         composable(route = ProdeScreen.Pronosticos.name) {
             Pronosticos()
         }

@@ -3,6 +3,7 @@ package com.example.prode_mobile.api_calls
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.example.prode_mobile.R
 import com.example.prode_mobile.leagues.LeagueData
 import com.example.prode_mobile.leagues.LeaguesData
 import com.example.prode_mobile.leagues.SeasonData
@@ -31,7 +32,7 @@ class ApiServiceImpl @Inject constructor() {
         loadingFinished: () -> Unit
     ) {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(StaticValues.BASE_URL)
+            .baseUrl(context.getString(R.string.base_url))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -70,7 +71,7 @@ class ApiServiceImpl @Inject constructor() {
         loadingFinished: () -> Unit
     ) {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(StaticValues.BASE_URL)
+            .baseUrl(context.getString(R.string.base_url))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -113,7 +114,7 @@ class ApiServiceImpl @Inject constructor() {
         loadingFinished: () -> Unit
     ){
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(StaticValues.BASE_URL)
+            .baseUrl(context.getString(R.string.base_url))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -153,7 +154,7 @@ class ApiServiceImpl @Inject constructor() {
         loadingFinished: () -> Unit
     ){
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(StaticValues.BASE_URL)
+            .baseUrl(context.getString(R.string.base_url))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -193,7 +194,7 @@ class ApiServiceImpl @Inject constructor() {
     ) {
 
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(StaticValues.BASE_URL)
+            .baseUrl(context.getString(R.string.base_url))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

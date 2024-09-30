@@ -4,9 +4,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -21,11 +23,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
 fun BottomBar (onNavigate: (String) -> Unit) {
-    val homeTab = TabBarItem (title = ProdeScreen.Home.name, selectedIcon = Icons.Filled.Home, unselectedIcon = Icons.Outlined.Home)
     val pronosticosTab = TabBarItem (title = ProdeScreen.Pronosticos.name, selectedIcon =Icons.Filled.DateRange, unselectedIcon = Icons.Outlined.DateRange)
     val leagues = TabBarItem (title = ProdeScreen.League.name, selectedIcon = Icons.Filled.FavoriteBorder, unselectedIcon = Icons.Outlined.FavoriteBorder)
+    val profileAndScore = TabBarItem (title = ProdeScreen.Score.name, selectedIcon = Icons.Filled.Person, unselectedIcon = Icons.Outlined.Person)
 
-    val topBarItems = listOf(homeTab, pronosticosTab, leagues)
+    val topBarItems = listOf(pronosticosTab, leagues, profileAndScore)
     TabView(tabBarItems = topBarItems, onNavigate)
 
 }

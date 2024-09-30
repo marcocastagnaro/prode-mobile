@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LeagueDao {
@@ -35,8 +36,12 @@ interface ProdeResultDao {
     suspend fun delete(prodeResult: ProdeResult)
 
     @Query("SELECT * FROM prode_results")
-    fun getAllProdeResults(): LiveData<List<ProdeResult>>
+    fun getAllProdeResults(): Flow<List<ProdeResult>>
+
 
     @Query("SELECT * FROM prode_results WHERE matchId = :matchId")
-    fun getProdeResult(matchId: Int): LiveData<ProdeResult>
+    fun getProdeResult(matchId: Int): ProdeResult
+
+    @Query ("UPDATE prode_results SET localGoals = :localGoals, visitorGoals = :visitorGoals, winner = :winner WHERE matchId = :matchId")
+    fun updateProdeResult(matchId: Int, localGoals: Int, visitorGoals: Int, winner: String)
 }

@@ -89,7 +89,10 @@ class LeagueViewModel @Inject constructor(
                     active = league.active,
                     image_path = league.image_path,
                     category = league.category,
-                    seasonId = league.seasonId
+                    seasonId = league.seasonId,
+                    "league", "domestic",    SportData(
+                        name = "Football"
+                    )
                 )
             })
             retryLoadingLeagues()
@@ -104,9 +107,12 @@ class LeagueViewModel @Inject constructor(
                 country_id = 10,
                 name = "Premier League",
                 active = true,
-                image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
+                image_path = "https://cdn.sportmonks.com/images/countries/png/short/gb.png",
                 category = 1,
-                seasonId = 23584
+                seasonId = 23584,
+                "league", "domestic",    SportData(
+                    name = "Football"
+                )
 
             ),
             LeagueData(
@@ -114,28 +120,39 @@ class LeagueViewModel @Inject constructor(
                 country_id = 20,
                 name = "La Liga",
                 active = true,
-                image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
+                image_path = "https://cdn.sportmonks.com/images/countries/png/short/es.png",
                 category = 1,
-                seasonId = 23584
+                seasonId = 23584,
+                "league", "domestic",    SportData(
+                    name = "Football"
+                )
             ),
             LeagueData(
                 id = 3,
                 country_id = 30,
                 name = "Serie A",
                 active = true,
-                image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
+                image_path = "https://cdn.sportmonks.com/images/countries/png/short/it.png",
                 category = 1,
-                seasonId = 23584
+                seasonId = 23584,
+                "league","domestic",    SportData(
+                    name = "Football"
+                )
 
             ),
             LeagueData(
                 id = 4,
                 country_id = 40,
-                name = "Bundesliga",
+                name = "LPF Argentina",
                 active = true,
-                image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
+                image_path = "https://cdn.sportmonks.com/images/countries/png/short/ar.png",
                 category = 1,
-                seasonId = 23584
+                seasonId = 23584,
+                "league", "domestic",
+
+                    SportData(
+                        name = "Football"
+                    )
 
             ),
             LeagueData(
@@ -143,9 +160,12 @@ class LeagueViewModel @Inject constructor(
                 country_id = 50,
                 name = "Ligue 1",
                 active = true,
-                image_path = "https://cdn.sportmonks.com/images/soccer/leagues/271.png",
+                image_path = "https://cdn.sportmonks.com/images/countries/png/short/fr.png",
                 category = 1,
-                seasonId = 23584
+                seasonId = 23584,
+                "league", "domestic",    SportData(
+                    name = "Football"
+                )
 
             )
         )
@@ -162,7 +182,6 @@ class LeagueViewModel @Inject constructor(
             onSuccess = { seasons ->
                 viewModelScope.launch {
                     _seasonList.emit(seasons)
-//´
 
                 }
                 _showRetry.value = false
@@ -172,7 +191,8 @@ class LeagueViewModel @Inject constructor(
                     onSuccess = { leagues ->
                         viewModelScope.launch {
                             val currentSeasons = _seasonList.value
-                            val filteredLeagues = leagues.map { league ->
+                            val leaguesFilter = leagues.filter { it.type == "league" && it.sub_type == "domestic" && it.sport.name == "Football"}
+                            val filteredLeagues = leaguesFilter.map { league ->
                                 val matchingSeason = currentSeasons.find { season -> season.league_id == league.id }
 
                                 if (matchingSeason != null) {

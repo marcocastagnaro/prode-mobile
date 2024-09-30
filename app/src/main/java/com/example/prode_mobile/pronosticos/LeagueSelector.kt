@@ -57,7 +57,6 @@ fun LeagueSelector(leagues: List<LeagueAndSeason>, onLeagueSelected: (String) ->
                             selectedText = item
                             expanded = false
                             onLeagueSelected(item)
-                            Toast.makeText(context, "Liga seleccionada: $item", Toast.LENGTH_SHORT).show()
                         }
                     )
                 }

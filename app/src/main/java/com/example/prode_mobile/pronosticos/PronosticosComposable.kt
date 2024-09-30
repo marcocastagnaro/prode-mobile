@@ -1,7 +1,6 @@
 package com.example.prode_mobile.pronosticos
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +20,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,10 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
-import com.example.prode_mobile.ui.theme.BlueButton
-import com.example.prode_mobile.ui.theme.DarkBackground
+import com.example.prode_mobile.ui.theme.DarkerGreyColor
+import com.example.prode_mobile.ui.theme.GreyBackground
 import com.example.prode_mobile.ui.theme.PurpleGrey80
-import com.example.prode_mobile.ui.theme.TitleColor
+import com.example.prode_mobile.ui.theme.TitleBlueColor
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -63,7 +60,7 @@ fun Pronosticos() {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = DarkBackground,
+        color = GreyBackground,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -79,7 +76,6 @@ fun Pronosticos() {
                 viewModel.retryLoadingRounds(league)
             })
 
-            Log.i("League selected", "League selected: $selectedLeague")
 
             AnimatedVisibility(visible = isLeagueSelected) {
                 ShowWhenLeagueIsSelected(loadingRounds, showRetry, viewModel,onDateAndLeagueSelected = { isSelected -> isDateAndLeagueSelected = isSelected }, selectedLeague = selectedLeague)
@@ -92,9 +88,11 @@ fun Pronosticos() {
     }
 }
 
-@SuppressLint("StateFlowValueCalledInComposition")
+@SuppressLint("StateFlowValueCalledInComposition", "SimpleDateFormat")
 @Composable
-fun ShowWhenRoundSelected (matchesLoading : Boolean, showMatchesRetry : Boolean, viewModel : PronosticosViewModel, selectedLeague : String?) {
+fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, viewModel: PronosticosViewModel, selectedLeague: String?) {
+    var selectedMatchId by remember { mutableStateOf<Int?>(null) } // Estado central para la tarjeta seleccionada
+
     if (matchesLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
@@ -115,7 +113,7 @@ fun ShowWhenRoundSelected (matchesLoading : Boolean, showMatchesRetry : Boolean,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
             )
-            Text(text = stringResource(id = R.string.retry_load_leagues))
+            Text(text = stringResource(id = R.string.retry_load_matches))
             Button(onClick = { selectedLeague?.let { viewModel.retryLoadingMatches(league = it) } }) {
                 Text(text = stringResource(id = R.string.retry))
             }
@@ -125,7 +123,6 @@ fun ShowWhenRoundSelected (matchesLoading : Boolean, showMatchesRetry : Boolean,
             viewModel.retryLoadingMatches(league = selectedLeague!!)
         }
         val roundsData by viewModel.scheduleList.collectAsState()
-        Log.i("Pronosticos", "Rounds: $roundsData")
         if (roundsData.isNotEmpty()) {
             val matches = roundsData[0].fixtures.map { fixture ->
                 val team1 = fixture.participants[0]
@@ -139,8 +136,7 @@ fun ShowWhenRoundSelected (matchesLoading : Boolean, showMatchesRetry : Boolean,
                         team1.image_path,
                         team2.image_path,
                         fixture.round_id,
-                        is_older = it
-                            .before(Date())
+                        is_older = it.before(Date())
                     )
                 }
             }
@@ -148,7 +144,13 @@ fun ShowWhenRoundSelected (matchesLoading : Boolean, showMatchesRetry : Boolean,
             Column(modifier = Modifier.padding(16.dp)) {
                 matches.forEach { match ->
                     if (match != null) {
-                        MatchCard(match, viewModel)
+                        MatchCard(
+                            matchData = match,
+                            isOpen = match.match_id == selectedMatchId,
+                            onCardClick = {
+                                selectedMatchId = if (selectedMatchId == match.match_id) null else match.match_id
+                            },
+                        )
                     }
                     Spacer(modifier = Modifier.size(24.dp))
                 }
@@ -158,17 +160,18 @@ fun ShowWhenRoundSelected (matchesLoading : Boolean, showMatchesRetry : Boolean,
 }
 
 
+
 @Composable
 fun SelectYourLeagueTitle () {
     Surface(modifier = Modifier
         .fillMaxWidth()
-        .height(140.dp), color = BlueButton,
+        .height(140.dp), color = DarkerGreyColor,
     ) {
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             Text(
                 text = stringResource(id = R.string.pronsoticos_title), style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    color = TitleColor,
+                    color = TitleBlueColor,
                     fontSize = 32.sp,
                     fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(16.dp)
@@ -176,7 +179,7 @@ fun SelectYourLeagueTitle () {
             Text(
                 text = stringResource(id = R.string.pronsoticos_subtitle), style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    color = TitleColor,
+                    color = TitleBlueColor,
                     fontSize = 16.sp,
                     fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(16.dp)
@@ -210,7 +213,7 @@ fun ShowWhenLeagueIsSelected(loadingRounds : Boolean, showRetry : Boolean, viewM
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
             )
-            Text(text = stringResource(id = R.string.retry_load_leagues))
+            Text(text = stringResource(id = R.string.retry_load_rounds))
             Button(onClick = { selectedLeague?.let { viewModel.retryLoadingRounds(league = it) } }) {
                 Text(text = stringResource(id = R.string.retry))
             }

@@ -1,7 +1,6 @@
 package com.example.prode_mobile.leagues
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,16 +19,13 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -40,8 +36,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,7 +46,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.prode_mobile.R
 import com.example.prode_mobile.reusable.AlertDialogExample
+import com.example.prode_mobile.ui.theme.BlackColor
+import com.example.prode_mobile.ui.theme.GreyBackground
 import com.example.prode_mobile.ui.theme.PurpleGrey80
+import com.example.prode_mobile.ui.theme.WhiteColor
 
 @Composable
 fun Leagues() {
@@ -97,14 +94,16 @@ fun Leagues() {
             LazyColumn(modifier = Modifier.padding(16.dp)) {
                 item {
                     Text(
-                        text = "My Leagues", style =
-                        TextStyle(fontSize = 20.sp, color = Color.Black)
+                        text = stringResource(id = R.string.my_leagues), style =
+                        TextStyle(fontSize = 20.sp, color = BlackColor)
                     )
                 }
                 item {
                     leaguesList.forEach { league ->
-                        val cast_league = LeagueData(league.league_id, league.country_id, league.name, league.active, league.image_path, league.category, league.seasonId)
-                        LeagueCard(league = cast_league, true, viewModel)
+                        val cast_league = LeagueData(league.league_id, league.country_id, league.name, league.active, league.image_path, league.category, league.seasonId, "league", "domestic",  SportData(
+                            name = "Football"
+                        ))
+                        LeagueCard(league = cast_league, true, true, viewModel)
                     }
                 }
                 item {
@@ -116,112 +115,18 @@ fun Leagues() {
                 }
                 item {
                     Text(
-                        text = "All Leagues",
-                        style = TextStyle(fontSize = 20.sp, color = Color.Black)
+                        text = stringResource(id =R.string.all_leagues),
+                        style = TextStyle(fontSize = 20.sp, color = BlackColor)
                     )
                     allLeaguesList.forEach { league ->
-                        LeagueCard(league = league, false, viewModel)
+                        LeagueCard(league = league, false, true, viewModel)
                     }
                 }
                 item {
                     unavailableList.forEach { league ->
-                        UnavailableLeagueCard(league = league, false, viewModel)
+                        LeagueCard(league = league, false, false, viewModel)
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun LeagueCard(league: LeagueData, myleague: Boolean, viewModel: LeagueViewModel) {
-    Surface (modifier = Modifier
-        .padding(8.dp)
-        .background(Color.White)
-        .height(70.dp)
-        .fillMaxWidth(), shape = RoundedCornerShape(8.dp), tonalElevation = 4.dp) {
-        Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-            .padding(16.dp)
-            , verticalAlignment = Alignment.CenterVertically) {
-            AsyncImage(model = league.image_path, contentDescription = "League Image", modifier= Modifier.size(30.dp)) //Place holder para cuando la imagen carga y error cuando falla
-            Spacer(modifier = Modifier.weight(0.2f))
-            Column {
-                Text(
-                    text = league.name,
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp
-                    )
-                )
-                Text(
-                    text = "Category: " + league.category.toString(),
-                    style = TextStyle(
-                        color = Color.Gray,
-                        fontSize = 16.sp
-                    )
-                )
-            }
-
-            if (!myleague) {
-                Spacer(modifier = Modifier.weight(1f))
-                AddLeagueAction(
-                    addLeagueaction = viewModel::addNewLeague,
-                    league
-                )
-            }
-            else {
-                Spacer(modifier = Modifier.weight(1f))
-                DeleteLeagueAction(
-                    delLeagueAction = viewModel::delLeague,
-                    league.id
-                )
-            }
-
-        }
-    }
-}
-@Composable
-fun UnavailableLeagueCard(league: LeagueData, myleague: Boolean, viewModel: LeagueViewModel) {
-    Surface(
-        modifier = Modifier
-            .padding(8.dp)
-            .height(70.dp)
-            .fillMaxWidth()
-            .clickable(enabled = false){}
-        , shape = RoundedCornerShape(8.dp), tonalElevation = 4.dp
-    ) {
-        Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-            .padding(16.dp)
-            , verticalAlignment = Alignment.CenterVertically) {
-            AsyncImage(model = league.image_path, contentDescription = "League Image", modifier= Modifier.size(30.dp)) //Place holder para cuando la imagen carga y error cuando falla
-            Spacer(modifier = Modifier.weight(0.2f))
-            Column {
-                Text(
-                    text = league.name,
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp
-                    )
-                )
-                Text(
-                    text = "Category: " + league.category.toString(),
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp
-                    )
-                )
-            }
-
-                Spacer(modifier = Modifier.weight(1f))
-            IconButton(
-                onClick = {
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Block,
-                    contentDescription = "Del",
-                    tint = Color.Black
-                )
             }
         }
     }
@@ -244,7 +149,7 @@ fun DeleteLeagueAction(
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = "Del",
-            tint = Color.Black
+            tint = BlackColor
         )
     }
     if (showAlert) {
@@ -280,7 +185,7 @@ fun AddLeagueAction(
         Icon(
             imageVector = Icons.Default.Add,
             contentDescription = "Add",
-            tint = Color.Black
+            tint = BlackColor
         )
     }
     if (showAlert) {

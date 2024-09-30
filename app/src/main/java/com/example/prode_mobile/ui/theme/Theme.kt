@@ -17,9 +17,9 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = BlueButton,
+    primary = DarkerGreyColor,
     secondary = GreyBackground,
-    tertiary = DarkBackground
+    tertiary = GreyBackground
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

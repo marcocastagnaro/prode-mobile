@@ -1,9 +1,26 @@
 <resources>
     <string name="app_name">prode-mobile</string>
     <string name="home_title"> PRODE 360</string>
-    <string name="pronsoticos_title"> Mis Pronosticos </string>
-    <string name="pronsoticos_subtitle"> Seleccione la liga y reliza tus pronosticos </string>
+    <string name="pronsoticos_title"> My Predictions </string>
+    <string name="pronsoticos_subtitle"> Select your league and make your predictions </string>
 
     <string name="retry">Retry</string>
     <string name="retry_load_leagues">Can\'t load leagues, try again later</string>
+    <string name="retry_load_rounds">Can\'t load rounds, try again later</string>
+    <string name="retry_load_matches">Can\'t load matches, try again later</string>
+
+    <string name ="resultado">Result</string>
+    <string name ="pronostico">Prediction</string>
+    <string name ="save_button">Save</string>
+
+    <string name="category">Category</string>
+<string name="all_leagues">All Leagues</string>
+    <string name="my_leagues">My Leagues</string>
+    <string name="score_and_profile">Score &amp; Profile</string>
+    <string name="my_score">My Score: </string>
+    <string name="username" >Username: </string>
+    <string name="country" >Country: </string>
+    <string name="age" >Age: </string>
+
+
 </resources>

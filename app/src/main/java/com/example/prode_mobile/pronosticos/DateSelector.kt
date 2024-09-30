@@ -11,7 +11,6 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,12 +57,11 @@ fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit
                     DropdownMenuItem(
                         text = { Text(text = item.toString()) },
                         onClick = {
-                            viewModel.saveRoundToDataStore(item.toString())
+                            viewModel.saveRoundSelected(item.toString())
                             retryMatches()
                             selectedText = item
                             expanded = false
                             isDateAndLeagueSelected()
-                            Toast.makeText(context, item.toString(), Toast.LENGTH_SHORT).show()
                         }
                     )
                 }

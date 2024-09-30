@@ -1,5 +1,8 @@
 package com.example.prode_mobile.api_calls
 
+import androidx.compose.ui.res.stringResource
+import com.example.prode_mobile.ProdeApplication
+import com.example.prode_mobile.R
 import com.example.prode_mobile.leagues.LeagueData
 import com.example.prode_mobile.leagues.LeaguesData
 import com.example.prode_mobile.leagues.SeasonsData
@@ -15,13 +18,13 @@ interface ApiService {
 
     @GET("my/leagues")
     fun getLeagues(
-        @Query("api_token") apiToken: String = StaticValues.api_token,
+        @Query("api_token") apiToken: String = ProdeApplication.context.getString(R.string.api_token),
         @Query("include") include: String = ""
     ): Call<LeaguesData>
 
     @GET("football/seasons/search/2025")
     fun getActualSeasons(
-        @Query("api_token") apiToken: String = StaticValues.api_token,
+        @Query("api_token") apiToken: String = ProdeApplication.context.getString(R.string.api_token),
         @Query("include") include: String = ""
     ): Call<SeasonsData>
 
@@ -31,7 +34,7 @@ interface ApiService {
     @GET("football/rounds/seasons/{seasonId}")
     fun getRounds(
         @Path("seasonId") seasonId: Int,
-        @Query("api_token") apiToken: String = StaticValues.api_token,
+        @Query("api_token") apiToken: String = ProdeApplication.context.getString(R.string.api_token),
         @Query("include") include: String = ""
     ): Call<RoundsData>
 
@@ -39,14 +42,14 @@ interface ApiService {
     @GET("football/stages/seasons/{seasonId}")
     fun getStages(
         @Path("seasonId") seasonId: Int,
-        @Query("api_token") apiToken: String = StaticValues.api_token,
+        @Query("api_token") apiToken: String = ProdeApplication.context.getString(R.string.api_token),
         @Query("include") include: String = "type"
     ): Call<StagesData>
 
     @GET("football/schedules/seasons/{seasonId}")
     fun getSchedule(
         @Path("seasonId") seasonId: Int,
-        @Query("api_token") apiToken: String = StaticValues.api_token,
+        @Query("api_token") apiToken: String = ProdeApplication.context.getString(R.string.api_token),
         @Query("include") include: String = ""
     ): Call<SchedulesData>
 }
