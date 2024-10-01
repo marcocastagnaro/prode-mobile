@@ -10,7 +10,7 @@ data class LeagueAndSeason(
     val league_id: Int,
     val country_id: Int,
     val name: String,
-    val active: Boolean, //QUE SEA SIMEPRE TRRUE
+    val active: Boolean,
     val image_path: String,
     val category: Int,
 

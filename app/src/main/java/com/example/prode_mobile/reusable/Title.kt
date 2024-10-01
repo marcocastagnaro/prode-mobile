@@ -40,7 +40,7 @@ fun TopTitle(string : Int) {
             Text(text = stringResource(id = string), style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 color = TitleBlueColor,
-                fontSize = 32.sp,
+                fontSize = dimensionResource(id = R.dimen.xxlarge_font_size).value.sp,
                 fontFamily = FontFamily.Monospace
             )
             )

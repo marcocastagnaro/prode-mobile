@@ -119,11 +119,11 @@ class PronosticosViewModel @Inject constructor(
         loadMatches(league)
     }
 
+//Funcion para conseguir todas las fechas (stages) de esta season -> por eso el season id
     private fun loadRounds(league: String) {
         _loadingRounds.value = true
 
         var stagesFiltered = listOf<StageData>()
-
         viewModelScope.launch {
             leaguesAndSeasonList.collect { leagues ->
                 val season = leagues.find { it.name == league }
@@ -177,7 +177,7 @@ class PronosticosViewModel @Inject constructor(
     }
 
 
-
+//Funcion para conseguir todos los partidos de esa fecha
     private fun loadMatches(league: String) {
         _loadingMatches.value = true
         val round = roundValue.value
@@ -267,7 +267,7 @@ class PronosticosViewModel @Inject constructor(
         }
     }
 
-    private suspend fun processMatchResult(result: ProdeResult) {
+    private fun processMatchResult(result: ProdeResult) {
         val fixture = _alreadyPlayedMatches.value
             .flatMap { it.fixtures }
             .find { it.id == result.matchId }
@@ -315,6 +315,7 @@ class PronosticosViewModel @Inject constructor(
     }
 
 
+    //Esta funcion la uso para conseguir todos los partidos que ya se jugaron y asi poder sumar el score
     private suspend fun loadExistingMatches(league: String) {
         val leaguesList = prode_database.leagueDao().getAllLeagues().asFlow().first()
         val season = leaguesList.find { it.name == league }
@@ -326,6 +327,8 @@ class PronosticosViewModel @Inject constructor(
                     context = context,
                     onSuccess = { scheduleData ->
                         val playedRounds = scheduleData[0].rounds?.filter { it.finished } ?: emptyList()
+                        //solo suma los rounds que estan marcados como finished -> es decir que si
+                        //se esta jugando la fecha todavia no se ve en el score.
                         _alreadyPlayedMatches.tryEmit(_alreadyPlayedMatches.value + playedRounds)
                         continuation.resume(Unit)
                     },

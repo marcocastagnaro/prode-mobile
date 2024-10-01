@@ -66,8 +66,8 @@ fun MyCarrousel(){
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.fillMaxSize()
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(it.title, style = TextStyle(fontSize = 18.sp))
+                        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_spacer)))
+                        Text(it.title, style = TextStyle(fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp))
                     }
                 }
             }
