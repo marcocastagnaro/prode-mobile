@@ -64,7 +64,7 @@ dependencies {
     implementation ("androidx.compose.material:material-icons-extended:1.6.8")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.49")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 // Retrofit and Gson dependencies
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit:converter-gson:2.0.0-beta2")
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")

@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">prode-mobile</string>
+    <string name="home_title"> PRODE 360</string>
+    <string name="pronsoticos_title">Predicciones</string>
+    <string name="pronsoticos_subtitle">Selecciona tu liga y haz tus predicciones</string>
+
+    <string name="retry">Reintentar</string>
+    <string name="retry_load_leagues">No se pueden cargar las ligas, intenta nuevamente más tarde</string>
+    <string name="retry_load_rounds">No se pueden cargar las rondas, intenta nuevamente más tarde</string>
+    <string name="retry_load_matches">No se pueden cargar los partidos, intenta nuevamente más tarde</string>
+
+    <string name="resultado">Resultado</string>
+    <string name="pronostico">Predicción</string>
+    <string name="save_button">Guardar</string>
+
+    <string name="category">Categoría</string>
+    <string name="all_leagues">Todas las Ligas</string>
+    <string name="my_leagues">Mis Ligas</string>
+    <string name="score_and_profile">Puntuación y Perfil</string>
+    <string name="my_score">Mi Puntuación: </string>
+    <string name="username">Usuario: </string>
+    <string name="country">País: </string>
+    <string name="age">Edad: </string>
+
+    <string name="fail_loading_leagues">"No se pueden obtener las ligas"</string>
+    <string name="fail_loading_seasons">"No se pueden obtener las temporadas"</string>
+    <string name="fail_loading_rounds">"No se pueden obtener las rondas"</string>
+    <string name="fail_loading_matches">"No se pueden obtener los partidos"</string>
+    <string name="fail_loading_schedules">"No se pueden obtener los horarios"</string>
+    <string name="fail_loading_stages">"No se pueden obtener las etapas"</string>
+</resources>
