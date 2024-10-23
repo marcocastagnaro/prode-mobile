@@ -64,7 +64,6 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
     }
     var isLoading by remember { mutableStateOf(true) }
 
-    val coroutineScope = rememberCoroutineScope()
     var backgroundColor by remember { mutableStateOf(DarkerGreyColor) }
 
     val localGoals = remember { mutableStateOf(0) }
@@ -73,19 +72,31 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
         viewModel.checkIfMatchIsInDB(matchData.match_id)
     }
 
-    LaunchedEffect(viewModel.isMatchInDB.value) {
-        if (viewModel.isMatchInDB.value) {
-            coroutineScope.launch {
-                val prodeResult = viewModel.getProdeResultForMatch(matchData.match_id)
-                if (prodeResult != null) {
-                    scoreTeam1 = prodeResult.localGoals ?: 0
-                    scoreTeam2 = prodeResult.visitorGoals ?: 0
-                }
-                isLoading = false
-            }
+    LaunchedEffect(matchData.match_id) {
+        val prodeResult = viewModel.getProdeResultForMatch(matchData.match_id)
+        val fixture = viewModel.scheduleList.value
+            .flatMap { it.fixtures }
+            .find { it.id == matchData.match_id }
+
+        val scoreTeam1 = fixture?.scores?.getOrNull(0)?.score
+        val scoreTeam2 = fixture?.scores?.getOrNull(1)?.score
+
+        val winner = if (scoreTeam1 != null && scoreTeam2 != null) {
+            if (scoreTeam1.goals > scoreTeam2.goals) "local"
+            else if (scoreTeam1.goals < scoreTeam2.goals) "visitor"
+            else "draw"
         } else {
-            isLoading = false
+            null
         }
+        //Apenas se renderiza la card se setea el color de fondo, no hace falta clickearlo
+        if (prodeResult != null) {
+            backgroundColor = when {
+                winner == prodeResult.winner && scoreTeam1?.goals == prodeResult.localGoals && scoreTeam2?.goals == prodeResult.visitorGoals -> CorrectResultColor
+                winner == prodeResult.winner -> CorrectWinnerColor
+                else -> WrongPrediction
+            }
+        }
+        isLoading = false
     }
 
     val cardHeight by animateDpAsState(targetValue = matchHeight)
@@ -186,38 +197,9 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
 
                     val score_team_1 = fixture?.scores?.getOrNull(0)?.score
                     val score_team_2 = fixture?.scores?.getOrNull(1)?.score
-
-                    val winner = if (score_team_1 != null && score_team_2 != null) {
-                        if (score_team_1.goals > score_team_2.goals) "local" else if (score_team_1.goals < score_team_2.goals) "visitor" else "draw"
-                    } else {
-                        null
-                    }
                         if (viewModel.isMatchInDB.value) {
                             matchHeight = dimensionResource(id = R.dimen.match_card_extra_expanded_height)
-                            LaunchedEffect(matchData.match_id) {
-                                val prodeResult =
-                                    viewModel.getProdeResultForMatch(matchData.match_id)
-                                if (prodeResult != null) {
-                                    coroutineScope.launch {
-                                        localGoals.value = prodeResult.localGoals ?: 0
-                                        visitorGoals.value = prodeResult.visitorGoals ?: 0
 
-                                        backgroundColor = when {
-                                            winner == prodeResult.winner && score_team_1?.goals == prodeResult.localGoals && score_team_2?.goals == prodeResult.visitorGoals -> {
-                                                CorrectResultColor
-                                            }
-
-                                            winner == prodeResult.winner -> {
-                                                CorrectWinnerColor
-                                            }
-
-                                            else -> {
-                                                WrongPrediction
-                                            }
-                                        }
-                                    }
-                                }
-                            }
                             Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.default_padding)), verticalArrangement = Arrangement.SpaceEvenly) {
                                 ShowPredictions(
                                     backgroundColor = backgroundColor,
