@@ -28,4 +28,6 @@
     <string name="fail_loading_matches">"No se pueden obtener los partidos"</string>
     <string name="fail_loading_schedules">"No se pueden obtener los horarios"</string>
     <string name="fail_loading_stages">"No se pueden obtener las etapas"</string>
+    <string name="save_result">Resultados guardados correctamente</string>
+
 </resources>

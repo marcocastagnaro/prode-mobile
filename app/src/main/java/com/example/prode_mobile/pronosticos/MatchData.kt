@@ -1,5 +1,20 @@
 package com.example.prode_mobile.pronosticos
 
+data class FechaSelector (
+    val nroFecha: Int,
+)
+
+data class MatchCardData (
+    val match_id: Int,
+    val team1: String,
+    val team2: String,
+    val date: String,
+    val urlTeam1: String,
+    val urlTeam2: String,
+    val nroFecha: Int,
+    val is_older: Boolean
+)
+
 data class SchedulesData (
     val data: List<ScheduleData>
 )

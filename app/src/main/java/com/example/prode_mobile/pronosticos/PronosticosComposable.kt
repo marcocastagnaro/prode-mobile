@@ -231,20 +231,7 @@ fun ShowWhenLeagueIsSelected(loadingRounds : Boolean, showRetry : Boolean, viewM
         )
     }
 }
-data class FechaSelector (
-    val nroFecha: Int,
-)
 
-data class MatchCardData (
-    val match_id: Int,
-    val team1: String,
-    val team2: String,
-    val date: String,
-    val urlTeam1: String,
-    val urlTeam2: String,
-    val nroFecha: Int,
-    val is_older: Boolean
-)
 @Preview
 @Composable
 fun PreviewPronostico() {

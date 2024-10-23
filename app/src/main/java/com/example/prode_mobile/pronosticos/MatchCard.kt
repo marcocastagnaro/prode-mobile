@@ -1,6 +1,7 @@
 package com.example.prode_mobile.pronosticos
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

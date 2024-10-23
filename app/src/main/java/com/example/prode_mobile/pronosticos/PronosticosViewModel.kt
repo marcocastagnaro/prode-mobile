@@ -2,6 +2,7 @@ package com.example.prode_mobile.pronosticos
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -26,6 +27,8 @@ import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 import androidx.compose.runtime.State
+import androidx.compose.ui.res.stringResource
+import com.example.prode_mobile.R
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.forEach
@@ -34,7 +37,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @HiltViewModel
 class PronosticosViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @ApplicationContext val context: Context,
     private val apiService: ApiServiceImpl
 ) : ViewModel() {
 
@@ -235,6 +238,8 @@ class PronosticosViewModel @Inject constructor(
             } else {
                 prode_database.prodeResultDao().insert(prodeResult)
             }
+            Toast.makeText(context, context.getString(R.string.save_result), Toast.LENGTH_SHORT).show()
+
         }
     }
 

@@ -28,4 +28,6 @@
     <string name="fail_loading_matches">"Can't get matches"</string>
     <string name="fail_loading_schedules">"Can't get schedules"</string>
     <string name="fail_loading_stages">"Can't get stages"</string>
+    <string name="save_result">Results saved correctly</string>
+
 </resources>
