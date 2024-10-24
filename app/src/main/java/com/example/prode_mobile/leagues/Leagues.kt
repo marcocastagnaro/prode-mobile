@@ -17,6 +17,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,8 +38,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
 import com.example.prode_mobile.reusable.AlertDialogExample
-import com.example.prode_mobile.ui.theme.BlackColor
-import com.example.prode_mobile.ui.theme.PurpleGrey80
 
 @Composable
 fun Leagues() {
@@ -59,8 +58,8 @@ fun Leagues() {
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.loading_box))
                     .align(Alignment.Center),
-                color = PurpleGrey80,
-                trackColor = PurpleGrey80,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+                trackColor = MaterialTheme.colorScheme.onErrorContainer,
             )
         }
     } else if (showRetry) {
@@ -79,14 +78,14 @@ fun Leagues() {
             }
         }
     } else {
-        Surface {
+        Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             LazyColumn(modifier = Modifier.padding(
                 dimensionResource(id = R.dimen.large_padding)
             )) {
                 item {
                     Text(
                         text = stringResource(id = R.string.my_leagues), style =
-                        TextStyle(fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp, color = BlackColor)
+                        TextStyle(fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp, color = MaterialTheme.colorScheme.secondary)
                     )
                 }
                 item {
@@ -109,7 +108,7 @@ fun Leagues() {
                 item {
                     Text(
                         text = stringResource(id =R.string.all_leagues),
-                        style = TextStyle(fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp, color = BlackColor)
+                        style = TextStyle(fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp, color = MaterialTheme.colorScheme.secondary)
                     )
                     allLeaguesList.forEach { league ->
                         LeagueCard(league = league, false, true, viewModel)
@@ -142,7 +141,7 @@ fun DeleteLeagueAction(
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = "Del",
-            tint = BlackColor
+            tint = MaterialTheme.colorScheme.tertiary
         )
     }
     if (showAlert) {
@@ -178,7 +177,7 @@ fun AddLeagueAction(
         Icon(
             imageVector = Icons.Default.Add,
             contentDescription = "Add",
-            tint = BlackColor
+            tint = MaterialTheme.colorScheme.tertiary
         )
     }
     if (showAlert) {

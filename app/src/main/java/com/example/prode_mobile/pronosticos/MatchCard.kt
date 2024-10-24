@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -65,7 +66,8 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
     }
     var isLoading by remember { mutableStateOf(true) }
 
-    var backgroundColor by remember { mutableStateOf(DarkerGreyColor) }
+    val primaryColor = MaterialTheme.colorScheme.primary
+    var backgroundColor by remember { mutableStateOf(primaryColor) }
 
     val localGoals = remember { mutableStateOf(0) }
     val visitorGoals = remember { mutableStateOf(0) }
@@ -133,7 +135,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                     text = matchData.date,
                     style = TextStyle(
                         fontWeight = FontWeight.Black,
-                        color = TitleBlueColor,
+                        color = MaterialTheme.colorScheme.secondary,
                         fontSize = dimensionResource(id = R.dimen.medium_font_size).value.sp,
                         fontFamily = FontFamily.Monospace
                     ),
@@ -233,7 +235,7 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
         text = stringResource(id = R.string.pronostico),
         style = TextStyle(
             fontWeight = FontWeight.Black,
-            color = TitleBlueColor,
+            color = MaterialTheme.colorScheme.secondary,
             fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
             fontFamily = FontFamily.Monospace
         ),    )
@@ -247,7 +249,7 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
             Box(
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.march_box_result_size))
-                    .border(2.dp, BlackColor)
+                    .border(2.dp, MaterialTheme.colorScheme.tertiary)
                     .padding(dimensionResource(id = R.dimen.default_padding)),
                 contentAlignment = Alignment.Center
             ) {
@@ -263,7 +265,7 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
             Box(
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.march_box_result_size))
-                    .border(2.dp, BlackColor)
+                    .border(2.dp, MaterialTheme.colorScheme.tertiary)
                     .padding(dimensionResource(id = R.dimen.default_padding)),
                 contentAlignment = Alignment.Center
             ) {
@@ -285,7 +287,7 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
         text = stringResource(id = R.string.resultado),
         style = TextStyle(
             fontWeight = FontWeight.Black,
-            color = TitleBlueColor,
+            color = MaterialTheme.colorScheme.secondary,
             fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
             fontFamily = FontFamily.Monospace
         ),
@@ -299,7 +301,7 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
         Box(
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.march_box_result_size))
-                .border(2.dp, BlackColor)
+                .border(2.dp, MaterialTheme.colorScheme.tertiary)
                 .padding(dimensionResource(id = R.dimen.default_padding)),
             contentAlignment = Alignment.Center
         ) {
@@ -309,13 +311,14 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
                     fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
                     fontWeight = FontWeight.Bold
                 ),
+                color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center
             )
         }
         Box(
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.march_box_result_size))
-                .border(2.dp, BlackColor)
+                .border(2.dp, MaterialTheme.colorScheme.tertiary)
                 .padding(dimensionResource(id = R.dimen.default_padding)),
             contentAlignment = Alignment.Center
         ) {
@@ -325,18 +328,36 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
                     fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
                     fontWeight = FontWeight.Bold
                 ),
+                color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center
             )
         }
     }
 }
 @Composable
-fun SavePronosticoToDatabase (matchId: Int, scoreTeam1: Int, scoreTeam2: Int, viewModel: PronosticosViewModel) : Unit {
+fun SavePronosticoToDatabase(
+    matchId: Int,
+    scoreTeam1: Int,
+    scoreTeam2: Int,
+    viewModel: PronosticosViewModel
+) {
     val winner = if (scoreTeam1 > scoreTeam2) "local" else if (scoreTeam1 < scoreTeam2) "visitor" else "draw"
-    Button(onClick = {
-        viewModel.savePronostico(matchId, scoreTeam1, scoreTeam2, winner)
-    }, modifier = Modifier.height(dimensionResource(id = R.dimen.save_button_height))) {
-        Text(text = stringResource(id = R.string.save_button), style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp))
-    }
 
+    Button(
+        onClick = {
+            viewModel.savePronostico(matchId, scoreTeam1, scoreTeam2, winner)
+        },
+        modifier = Modifier.height(dimensionResource(id = R.dimen.save_button_height)),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            contentColor = MaterialTheme.colorScheme.surface
+        )
+    ) {
+        Text(
+            text = stringResource(id = R.string.save_button),
+            style = TextStyle(
+                fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp
+            )
+        )
+    }
 }

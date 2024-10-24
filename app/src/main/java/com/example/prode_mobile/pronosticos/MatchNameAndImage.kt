@@ -3,6 +3,7 @@ package com.example.prode_mobile.pronosticos
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +26,7 @@ fun MatchNameAndImage (urlImage: String, name: String, modifier: Modifier) {
             text = name,
             style = TextStyle(
                 fontWeight = FontWeight.Black,
-                color = TitleBlueColor,
+                color = MaterialTheme.colorScheme.secondary,
                 fontSize = 10.sp,
                 fontFamily = FontFamily.SansSerif
             ),

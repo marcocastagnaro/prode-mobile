@@ -2,6 +2,7 @@ package com.example.prode_mobile.leagues
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Block
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,9 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.prode_mobile.R
-import com.example.prode_mobile.ui.theme.BlackColor
-import com.example.prode_mobile.ui.theme.GreyBackground
-import com.example.prode_mobile.ui.theme.WhiteColor
+
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LeagueCard(
@@ -46,9 +47,14 @@ fun LeagueCard(
             .padding(
                 dimensionResource(id = R.dimen.default_padding)
             )
-            .background(WhiteColor)
+            .background(MaterialTheme.colorScheme.surface)
             .height(dimensionResource(id = R.dimen.league_card_height))
             .fillMaxWidth()
+            .border(
+                1.dp,
+                color = MaterialTheme.colorScheme.secondary,
+                shape = RoundedCornerShape(8.dp)
+            )
             .clickable(enabled = isAvailable) {}, // clickable only if available
         shape = RoundedCornerShape(8.dp),
         tonalElevation = 4.dp
@@ -63,7 +69,7 @@ fun LeagueCard(
                 model = league.image_path,
                 contentDescription = "League Image",
                 modifier = Modifier.size(dimensionResource(id = R.dimen.league_image_size))
-            ) // Placeholder para cuando la imagen carga y error cuando falla
+            )
 
             Spacer(modifier = Modifier.weight(0.2f))
 
@@ -71,14 +77,14 @@ fun LeagueCard(
                 Text(
                     text = league.name,
                     style = TextStyle(
-                        color = BlackColor,
+                        color = MaterialTheme.colorScheme.tertiary,
                         fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp
                     )
                 )
                 Text(
                     text = "${stringResource(id = R.string.category)}: ${league.category}",
                     style = TextStyle(
-                        color = BlackColor,
+                        color = MaterialTheme.colorScheme.tertiary,
                         fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp
                     )
                 )
@@ -111,7 +117,7 @@ fun LeagueCard(
                     Icon(
                         imageVector = Icons.Default.Block,
                         contentDescription = "Unavailable",
-                        tint = BlackColor
+                        tint = MaterialTheme.colorScheme.tertiary
                     )
                 }
             }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,10 +41,10 @@ fun Score(score: State<Int>) {
             )
             .border(
                 2.dp,
-                color = BlackColor,
+                color = MaterialTheme.colorScheme.tertiary,
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape))
             )
-            .background(DarkerGreyColor),
+            .background(MaterialTheme.colorScheme.primary),
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape)),
         shadowElevation = dimensionResource(id = R.dimen.shadow_elevation_score)
     ) {
@@ -59,15 +60,15 @@ fun Score(score: State<Int>) {
                 style = TextStyle(
                     fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
                     fontWeight = FontWeight.Bold,
-                    color = BlackColor
+                    color = MaterialTheme.colorScheme.tertiary
                 ),
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
             )
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .border(3.dp, WhiteColor, shape = RoundedCornerShape(10.dp))
-                    .background(BlackColor)
+                    .border(3.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(10.dp))
+                    .background(MaterialTheme.colorScheme.tertiary)
                     .padding(dimensionResource(id = R.dimen.large_padding))
                     .fillMaxWidth(0.5f)
             ) {
@@ -76,7 +77,7 @@ fun Score(score: State<Int>) {
                     style = TextStyle(
                         fontSize = dimensionResource(id = R.dimen.title_font_size).value.sp,
                         fontWeight = FontWeight.Bold,
-                        color = WhiteColor
+                        color = MaterialTheme.colorScheme.surface
                     )
                 )
             }

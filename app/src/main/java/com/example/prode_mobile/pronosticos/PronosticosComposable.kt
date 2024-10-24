@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,10 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
-import com.example.prode_mobile.ui.theme.DarkerGreyColor
-import com.example.prode_mobile.ui.theme.GreyBackground
-import com.example.prode_mobile.ui.theme.PurpleGrey80
-import com.example.prode_mobile.ui.theme.TitleBlueColor
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -59,7 +56,7 @@ fun Pronosticos() {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = GreyBackground,
+        color = MaterialTheme.colorScheme.background,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -98,8 +95,8 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.loading_box))
                     .align(Alignment.Center),
-                color = PurpleGrey80,
-                trackColor = PurpleGrey80,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+                trackColor = MaterialTheme.colorScheme.onErrorContainer,
             )
         }
     } else if (showMatchesRetry) {
@@ -166,13 +163,13 @@ fun MakePredictionsTitle () {
         modifier = Modifier
             .fillMaxWidth()
             .height(dimensionResource(id = R.dimen.make_predictions_title_surface_size)),
-        color = DarkerGreyColor,
+        color = MaterialTheme.colorScheme.primary,
     ) {
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             Text(
                 text = stringResource(id = R.string.pronsoticos_title), style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    color = TitleBlueColor,
+                    color = MaterialTheme.colorScheme.secondary,
                     fontSize = dimensionResource(id = R.dimen.xxlarge_font_size).value.sp,
                     fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding))
@@ -180,7 +177,7 @@ fun MakePredictionsTitle () {
             Text(
                 text = stringResource(id = R.string.pronsoticos_subtitle), style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    color = TitleBlueColor,
+                    color = MaterialTheme.colorScheme.secondary,
                     fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
                     fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)
@@ -201,8 +198,8 @@ fun ShowWhenLeagueIsSelected(loadingRounds : Boolean, showRetry : Boolean, viewM
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.loading_box))
                     .align(Alignment.Center),
-                color = PurpleGrey80,
-                trackColor = PurpleGrey80,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+                trackColor = MaterialTheme.colorScheme.onErrorContainer,
             )
         }
     } else if (showRetry) {

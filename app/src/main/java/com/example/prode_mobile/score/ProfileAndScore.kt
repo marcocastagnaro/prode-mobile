@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,13 +32,13 @@ fun ScoreAndProfile() {
     val viewModel = hiltViewModel<PronosticosViewModel>()
     val scoreAndProfileViewModel = hiltViewModel<ScoreAndProfileViewModel>()
     val score = viewModel.score.collectAsState()
-    Surface (modifier = Modifier.fillMaxSize()) {
+    Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column {
             Text(
                 text = stringResource(id = R.string.score_and_profile), style = TextStyle(
                     fontSize = dimensionResource(id = R.dimen.title_font_size).value.sp,
                     fontFamily = FontFamily.Serif,
-                    color = TitleBlueColor
+                    color = MaterialTheme.colorScheme.secondary
                 ), modifier = Modifier.padding(
                     dimensionResource(id = R.dimen.large_padding))
             )
