@@ -17,10 +17,11 @@
     <string name="all_leagues">All Leagues</string>
     <string name="my_leagues">My Leagues</string>
     <string name="score_and_profile">Score &amp; Profile</string>
-    <string name="my_score">My Score: </string>
-    <string name="username" >Username: </string>
-    <string name="country" >Country: </string>
-    <string name="age" >Age: </string>
+    <string name="my_score">Total Score: </string>
+    <string name="exact_score">Exact score: </string>
+    <string name="wrong_score">Wrong score: </string>
+    <string name="mid_score">Mid score: </string>
+
 
     <string name="fail_loading_leagues">"Can't get leagues"</string>
     <string name="fail_loading_seasons">"Can't get seasons"</string>

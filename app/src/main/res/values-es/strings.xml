@@ -17,10 +17,10 @@
     <string name="all_leagues">Todas las Ligas</string>
     <string name="my_leagues">Mis Ligas</string>
     <string name="score_and_profile">Puntuación y Perfil</string>
-    <string name="my_score">Mi Puntuación: </string>
-    <string name="username">Usuario: </string>
-    <string name="country">País: </string>
-    <string name="age">Edad: </string>
+    <string name="my_score">Puntuación total: </string>
+    <string name="exact_score">Resultados exact: </string>
+    <string name="wrong_score">Resultados erroneos: </string>
+    <string name="mid_score">Half result: </string>
 
     <string name="fail_loading_leagues">"No se pueden obtener las ligas"</string>
     <string name="fail_loading_seasons">"No se pueden obtener las temporadas"</string>

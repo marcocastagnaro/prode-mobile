@@ -67,6 +67,15 @@ class PronosticosViewModel @Inject constructor(
     private val _score = MutableStateFlow(0)
     val score = _score.asStateFlow()
 
+    private val _wrongScore = MutableStateFlow(0)
+    val wrongScore = _wrongScore.asStateFlow()
+
+    private val _midScore = MutableStateFlow(0)
+    val midScore = _midScore.asStateFlow()
+
+    private val _exactScore = MutableStateFlow(0)
+    val exactScore = _exactScore.asStateFlow()
+
     private val _alreadyPlayedMatches = MutableStateFlow(listOf<RoundMatchData>())
 
     private val prode_database: ProdeMobileDatabase;
@@ -250,6 +259,21 @@ class PronosticosViewModel @Inject constructor(
             }
         }
     }
+    fun saveWrongResultsToDataStore() {
+        viewModelScope.launch {
+            saveToDataStore(context, _wrongScore.value, PreferencesKeys.WRONG_SCORE_DATA)
+        }
+    }
+    fun saveMidResultsToDataStore() {
+        viewModelScope.launch {
+            saveToDataStore(context, _midScore.value, PreferencesKeys.MID_SCORE_DATA)
+        }
+    }
+    fun saveExactResultsToDataStore() {
+        viewModelScope.launch {
+            saveToDataStore(context, _exactScore.value, PreferencesKeys.EXACT_SCORE_DATA)
+        }
+    }
 
     fun saveScoreToDataStore(score: Int) {
         viewModelScope.launch {
@@ -269,6 +293,9 @@ class PronosticosViewModel @Inject constructor(
                     }
                 }
             }
+            saveExactResultsToDataStore()
+            saveMidResultsToDataStore()
+            saveWrongResultsToDataStore()
         }
     }
 
@@ -284,8 +311,19 @@ class PronosticosViewModel @Inject constructor(
             val winner = determineWinner(scoreTeam1, scoreTeam2)
 
             if (winner == result.winner) {
-                _score.value += if (result.localGoals == scoreTeam1?.goals && result.visitorGoals == scoreTeam2?.goals) 3 else 1
+                _score.value += if (result.localGoals == scoreTeam1?.goals && result.visitorGoals == scoreTeam2?.goals) {
+                    3
+                } else 1
+                if (result.localGoals == scoreTeam1?.goals && result.visitorGoals == scoreTeam2?.goals) {
+                    _exactScore.value += 1
+                }
+                else if (result.localGoals == scoreTeam1?.goals || result.visitorGoals == scoreTeam2?.goals) {
+                    _midScore.value += 1
+                }
                 saveScoreToDataStore(_score.value)
+            }
+            else {
+                _wrongScore.value += 1
             }
         }
     }

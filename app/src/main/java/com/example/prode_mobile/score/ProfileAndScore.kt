@@ -1,6 +1,5 @@
 package com.example.prode_mobile.score
 
-import Profile
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +31,9 @@ fun ScoreAndProfile() {
     val viewModel = hiltViewModel<PronosticosViewModel>()
     val scoreAndProfileViewModel = hiltViewModel<ScoreAndProfileViewModel>()
     val score = viewModel.score.collectAsState()
+    val exactScore = viewModel.exactScore.collectAsState()
+    val wrongScore = viewModel.wrongScore.collectAsState()
+    val midScore = viewModel.midScore.collectAsState()
     Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column {
             Text(
@@ -43,20 +45,13 @@ fun ScoreAndProfile() {
                     dimensionResource(id = R.dimen.large_padding))
             )
             Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
-            Divider(
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.default_padding))
-                    .fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
-            Profile(viewModel = scoreAndProfileViewModel)
             Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
             Divider(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.default_padding))
                     .fillMaxWidth()
             )
-            Score(score)
+            Score(score,exactScore, midScore, wrongScore )
         }
     }
 }

@@ -12,9 +12,9 @@ val Context.dataStore by preferencesDataStore(name = "PRODE_DATA_STORE")
 
 object PreferencesKeys {
     val SCORE_DATA = intPreferencesKey("score_data")
-    val USERNAME = stringPreferencesKey("username")
-    val COUNTRY = stringPreferencesKey("country")
-    val AGE = stringPreferencesKey("age")
+    val EXACT_SCORE_DATA = intPreferencesKey("exact_score_data")
+    val MID_SCORE_DATA = intPreferencesKey("mid_score_data")
+    val WRONG_SCORE_DATA = intPreferencesKey("wrong_score_data")
 }
 
 suspend fun <T> saveToDataStore(context: Context, value: T, key: Preferences.Key<T>) {

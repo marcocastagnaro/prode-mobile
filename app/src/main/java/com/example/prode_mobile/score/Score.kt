@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +33,7 @@ import com.example.prode_mobile.ui.theme.DarkerGreyColor
 import com.example.prode_mobile.ui.theme.GreyBackground
 import com.example.prode_mobile.ui.theme.WhiteColor
 @Composable
-fun Score(score: State<Int>) {
+fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wrongScore: State<Int>) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -67,7 +68,11 @@ fun Score(score: State<Int>) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .border(3.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(10.dp))
+                    .border(
+                        3.dp,
+                        MaterialTheme.colorScheme.tertiary,
+                        shape = RoundedCornerShape(10.dp)
+                    )
                     .background(MaterialTheme.colorScheme.tertiary)
                     .padding(dimensionResource(id = R.dimen.large_padding))
                     .fillMaxWidth(0.5f)
@@ -81,7 +86,40 @@ fun Score(score: State<Int>) {
                     )
                 )
             }
+
+            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)))
+            Text(
+                text = stringResource(id = R.string.wrong_score) + " " + wrongScore.value.toString(),
+                style = TextStyle(
+                    fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.tertiary
+                ),
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
+            )
+            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)))
+            Text(
+                text = stringResource(id = R.string.exact_score) + " " + exactScore.value.toString(),
+                style = TextStyle(
+                    fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.tertiary
+                ),
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
+            )
+            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)))
+            Text(
+                text = stringResource(id = R.string.mid_score) + " " + midScore.value.toString(),
+                style = TextStyle(
+                    fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.tertiary
+                ),
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
+            )
+
         }
+
     }
 }
 
@@ -89,6 +127,6 @@ fun Score(score: State<Int>) {
 @Composable
 fun ScorePreview() {
     val score = remember { mutableStateOf(100) }
-    Score(score = score)
+    Score(score = score, exactScore = score, midScore = score, wrongScore = score)
 }
 
