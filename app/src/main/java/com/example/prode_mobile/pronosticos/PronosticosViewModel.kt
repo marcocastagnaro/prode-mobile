@@ -27,6 +27,7 @@ import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 import androidx.compose.runtime.State
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.prode_mobile.R
 import kotlinx.coroutines.async
@@ -226,8 +227,14 @@ class PronosticosViewModel @Inject constructor(
         }
     }
 
-    fun savePronostico(matchId: Int, localGoals: Int, visitorGoals: Int, winner: String) {
+    fun savePronostico(matchId: Int, localGoals: Int?, visitorGoals: Int?) {
+            if (localGoals == null || visitorGoals == null) {
+            Toast.makeText(context, context.getString(R.string.fail_saving_results), Toast.LENGTH_SHORT).show()
+            return
+        }
         viewModelScope.launch(Dispatchers.IO) {
+
+            val winner = if (localGoals > visitorGoals) "local" else if (localGoals < visitorGoals) "visitor" else "draw"
             val prodeResult = ProdeResult(
                 matchId = matchId,
                 localGoals = localGoals,
@@ -247,8 +254,9 @@ class PronosticosViewModel @Inject constructor(
             } else {
                 prode_database.prodeResultDao().insert(prodeResult)
             }
-            Toast.makeText(context, context.getString(R.string.save_result), Toast.LENGTH_SHORT).show()
-
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, context.getString(R.string.save_result), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -317,7 +325,7 @@ class PronosticosViewModel @Inject constructor(
                 if (result.localGoals == scoreTeam1?.goals && result.visitorGoals == scoreTeam2?.goals) {
                     _exactScore.value += 1
                 }
-                else if (result.localGoals == scoreTeam1?.goals || result.visitorGoals == scoreTeam2?.goals) {
+                else {
                     _midScore.value += 1
                 }
                 saveScoreToDataStore(_score.value)

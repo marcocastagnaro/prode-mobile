@@ -16,7 +16,7 @@
     <string name="category">Category</string>
     <string name="all_leagues">All Leagues</string>
     <string name="my_leagues">My Leagues</string>
-    <string name="score_and_profile">Score &amp; Profile</string>
+    <string name="score_and_profile">Score </string>
     <string name="my_score">Total Score: </string>
     <string name="exact_score">Exact score: </string>
     <string name="wrong_score">Wrong score: </string>
@@ -29,6 +29,7 @@
     <string name="fail_loading_matches">"Can't get matches"</string>
     <string name="fail_loading_schedules">"Can't get schedules"</string>
     <string name="fail_loading_stages">"Can't get stages"</string>
+    <string name="fail_saving_results">"Can't save results, it needs to be a number"</string>
     <string name="save_result">Results saved correctly</string>
 
 </resources>

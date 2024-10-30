@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -58,8 +59,8 @@ import kotlinx.coroutines.launch
 fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
               onCardClick: () -> Unit) {
     val viewModel = hiltViewModel<PronosticosViewModel>()
-    var scoreTeam1 by remember { mutableStateOf(0) }
-    var scoreTeam2 by remember { mutableStateOf(0) }
+    var scoreTeam1 by remember { mutableStateOf<Int?>(null) }
+    var scoreTeam2 by remember { mutableStateOf<Int?>(null) }
     val initialHeight = dimensionResource(id = R.dimen.match_card_initial_height)
     var matchHeight by remember {
         mutableStateOf(initialHeight)
@@ -80,13 +81,14 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
         val fixture = viewModel.scheduleList.value
             .flatMap { it.fixtures }
             .find { it.id == matchData.match_id }
+        scoreTeam1 = prodeResult?.localGoals
+        scoreTeam2 = prodeResult?.visitorGoals
+        val realLocalGoals= fixture?.scores?.getOrNull(0)?.score?.goals
+        val realVisitorGoals = fixture?.scores?.getOrNull(1)?.score?.goals
 
-        val scoreTeam1 = fixture?.scores?.getOrNull(0)?.score
-        val scoreTeam2 = fixture?.scores?.getOrNull(1)?.score
-
-        val winner = if (scoreTeam1 != null && scoreTeam2 != null) {
-            if (scoreTeam1.goals > scoreTeam2.goals) "local"
-            else if (scoreTeam1.goals < scoreTeam2.goals) "visitor"
+        val winner = if (realLocalGoals != null && realVisitorGoals != null) {
+            if (realLocalGoals > realVisitorGoals) "local"
+            else if (realLocalGoals < realVisitorGoals) "visitor"
             else "draw"
         } else {
             null
@@ -94,10 +96,14 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
         //Apenas se renderiza la card se setea el color de fondo, no hace falta clickearlo
         if (prodeResult != null) {
             backgroundColor = when {
-                winner == prodeResult.winner && scoreTeam1?.goals == prodeResult.localGoals && scoreTeam2?.goals == prodeResult.visitorGoals -> CorrectResultColor
+                winner == prodeResult.winner && realLocalGoals == prodeResult.localGoals && realVisitorGoals == prodeResult.visitorGoals -> CorrectResultColor
                 winner == prodeResult.winner -> CorrectWinnerColor
+                winner == null -> primaryColor
                 else -> WrongPrediction
             }
+        }
+        else {
+            backgroundColor = primaryColor
         }
         isLoading = false
     }
@@ -158,26 +164,46 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         TextField(
-                            value = scoreTeam1.toString(),
-                            onValueChange = { scoreTeam1 = it.toIntOrNull() ?: 0 },
+                            value = scoreTeam1?.toString() ?: "",
+                            onValueChange = {
+                                scoreTeam1 = it.toIntOrNull()
+                            },
                             modifier = Modifier.width(dimensionResource(id = R.dimen.text_field_width)),
                             label = {
                                 Text(
                                     text = matchData.team1,
                                     style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
                                 )
-                            }
+                            },
+                            placeholder = {
+                                Text(
+                                    text = "-",
+                                    style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
+                                )
+                            },
+                            isError = scoreTeam1 == null
+
                         )
+
                         TextField(
-                            value = scoreTeam2.toString(),
-                            onValueChange = { scoreTeam2 = it.toIntOrNull() ?: 0 },
+                            value = scoreTeam2?.toString() ?: "",
+                            onValueChange = {
+                                scoreTeam2 = it.toIntOrNull()
+                            },
                             modifier = Modifier.width(dimensionResource(id = R.dimen.text_field_width)),
                             label = {
                                 Text(
                                     text = matchData.team2,
                                     style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
                                 )
-                            }
+                            },
+                            placeholder = {
+                                Text(
+                                    text = "-",
+                                    style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
+                                )
+                            },
+                            isError = scoreTeam2 == null
                         )
                     }
 
@@ -337,15 +363,14 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
 @Composable
 fun SavePronosticoToDatabase(
     matchId: Int,
-    scoreTeam1: Int,
-    scoreTeam2: Int,
-    viewModel: PronosticosViewModel
+    viewModel: PronosticosViewModel,
+    scoreTeam1: Int?,
+    scoreTeam2: Int?
 ) {
-    val winner = if (scoreTeam1 > scoreTeam2) "local" else if (scoreTeam1 < scoreTeam2) "visitor" else "draw"
 
     Button(
         onClick = {
-            viewModel.savePronostico(matchId, scoreTeam1, scoreTeam2, winner)
+            viewModel.savePronostico(matchId, scoreTeam1, scoreTeam2)
         },
         modifier = Modifier.height(dimensionResource(id = R.dimen.save_button_height)),
         colors = ButtonDefaults.buttonColors(

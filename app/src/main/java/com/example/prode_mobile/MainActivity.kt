@@ -71,7 +71,6 @@ fun MainScreen(biometricAuthManager: BiometricAuthManager) {
         }
     }
 
-    // Mostrar la UI basada en el estado de autenticación
     if (isAuthenticated) {
         val navController = rememberNavController()
         ProdemobileTheme {
@@ -89,7 +88,6 @@ fun MainScreen(biometricAuthManager: BiometricAuthManager) {
             }
         }
     } else {
-        // Mostrar el componente de autenticación biométrica
         BiometricLogin(
             biometricAuthManager = biometricAuthManager,
             onAuthSuccess = { isAuthenticated = true },

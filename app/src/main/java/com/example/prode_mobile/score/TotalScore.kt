@@ -18,18 +18,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
 import com.example.prode_mobile.pronosticos.PronosticosViewModel
-import com.example.prode_mobile.ui.theme.TitleBlueColor
 
 
 @Composable
 fun ScoreAndProfile() {
     val viewModel = hiltViewModel<PronosticosViewModel>()
-    val scoreAndProfileViewModel = hiltViewModel<ScoreAndProfileViewModel>()
     val score = viewModel.score.collectAsState()
     val exactScore = viewModel.exactScore.collectAsState()
     val wrongScore = viewModel.wrongScore.collectAsState()

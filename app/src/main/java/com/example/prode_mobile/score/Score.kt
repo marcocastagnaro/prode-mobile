@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,16 +31,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.prode_mobile.R
 import com.example.prode_mobile.ui.theme.BlackColor
+import com.example.prode_mobile.ui.theme.CorrectResultColor
+import com.example.prode_mobile.ui.theme.CorrectWinnerColor
 import com.example.prode_mobile.ui.theme.DarkerGreyColor
 import com.example.prode_mobile.ui.theme.GreyBackground
 import com.example.prode_mobile.ui.theme.WhiteColor
+import com.example.prode_mobile.ui.theme.WrongPrediction
+
 @Composable
 fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wrongScore: State<Int>) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                dimensionResource(id = R.dimen.large_padding)
+                dimensionResource(id = R.dimen.small_padding)
             )
             .border(
                 2.dp,
@@ -65,58 +71,40 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
                 ),
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
             )
-            Box(
-                contentAlignment = Alignment.Center,
+            Card(
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiary),
                 modifier = Modifier
                     .border(
                         3.dp,
                         MaterialTheme.colorScheme.tertiary,
-                        shape = RoundedCornerShape(10.dp)
+                        shape = RoundedCornerShape(16.dp)
                     )
-                    .background(MaterialTheme.colorScheme.tertiary)
-                    .padding(dimensionResource(id = R.dimen.large_padding))
-                    .fillMaxWidth(0.5f)
+                    .fillMaxWidth(0.5f),
+
             ) {
-                Text(
-                    text = score.value.toString(),
-                    style = TextStyle(
-                        fontSize = dimensionResource(id = R.dimen.title_font_size).value.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.surface
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth().padding(8.dp)
+                ) {
+                    Text(
+                        text = score.value.toString(),
+                        style = TextStyle(
+                            fontSize = dimensionResource(id = R.dimen.title_font_size).value.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.surface
+                        )
                     )
-                )
+                }
             }
 
             Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)))
-            Text(
-                text = stringResource(id = R.string.wrong_score) + " " + wrongScore.value.toString(),
-                style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.tertiary
-                ),
-                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
-            )
-            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)))
-            Text(
-                text = stringResource(id = R.string.exact_score) + " " + exactScore.value.toString(),
-                style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.tertiary
-                ),
-                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
-            )
-            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)))
-            Text(
-                text = stringResource(id = R.string.mid_score) + " " + midScore.value.toString(),
-                style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.tertiary
-                ),
-                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
-            )
+            Row (horizontalArrangement = Arrangement.SpaceBetween) {
+                SmallScoreBox(exactScore.value, exactScore.value * 3, CorrectResultColor)
+                SmallScoreBox(midScore.value, midScore.value , CorrectWinnerColor)
+                SmallScoreBox(wrongScore.value, 0, WrongPrediction)
+
+            }
 
         }
 

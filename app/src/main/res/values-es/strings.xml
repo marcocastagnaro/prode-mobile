@@ -16,7 +16,7 @@
     <string name="category">Categoría</string>
     <string name="all_leagues">Todas las Ligas</string>
     <string name="my_leagues">Mis Ligas</string>
-    <string name="score_and_profile">Puntuación y Perfil</string>
+    <string name="score_and_profile">Puntuación </string>
     <string name="my_score">Puntuación total: </string>
     <string name="exact_score">Resultados exact: </string>
     <string name="wrong_score">Resultados erroneos: </string>
@@ -28,6 +28,8 @@
     <string name="fail_loading_matches">"No se pueden obtener los partidos"</string>
     <string name="fail_loading_schedules">"No se pueden obtener los horarios"</string>
     <string name="fail_loading_stages">"No se pueden obtener las etapas"</string>
+    <string name="fail_saving_results">"No se puede guardar el resultado, tiene que ser un numero"</string>
+
     <string name="save_result">Resultados guardados correctamente</string>
 
 </resources>
