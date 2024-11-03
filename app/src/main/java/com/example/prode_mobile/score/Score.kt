@@ -1,5 +1,6 @@
 package com.example.prode_mobile.score
 
+import Reference
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -48,7 +49,7 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
             )
             .border(
                 2.dp,
-                color = MaterialTheme.colorScheme.tertiary,
+                color = MaterialTheme.colorScheme.secondary,
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape))
             )
             .background(MaterialTheme.colorScheme.primary),
@@ -67,13 +68,13 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
                 style = TextStyle(
                     fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.tertiary
+                    color = MaterialTheme.colorScheme.secondary
                 ),
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
             )
             Card(
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiary),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary),
                 modifier = Modifier
                     .border(
                         3.dp,
@@ -85,7 +86,9 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxWidth().padding(8.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
                 ) {
                     Text(
                         text = score.value.toString(),
@@ -105,7 +108,6 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
                 SmallScoreBox(wrongScore.value, 0, WrongPrediction)
 
             }
-
         }
 
     }

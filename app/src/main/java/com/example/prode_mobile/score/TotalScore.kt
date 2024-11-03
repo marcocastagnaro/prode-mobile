@@ -1,5 +1,6 @@
 package com.example.prode_mobile.score
 
+import Reference
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,7 +49,9 @@ fun ScoreAndProfile() {
                     .padding(dimensionResource(id = R.dimen.default_padding))
                     .fillMaxWidth()
             )
-            Score(score,exactScore, midScore, wrongScore )
+            Score(score,exactScore, midScore, wrongScore)
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
+            Reference()
         }
     }
 }

@@ -122,19 +122,19 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.large_padding)),
+                .padding(dimensionResource(id = R.dimen.default_padding)),
             horizontalAlignment = Alignment.Start
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(dimensionResource(id = R.dimen.default_padding)),
+                    .padding(dimensionResource(id = R.dimen.small_padding)),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 MatchNameAndImage(
                     urlImage = matchData.urlTeam1,
                     name = matchData.team1,
-                    Modifier.fillMaxWidth(0.18f)
+                    Modifier.fillMaxWidth(0.2f)
                 )
 
                 Text(
@@ -151,7 +151,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                 MatchNameAndImage(
                     urlImage = matchData.urlTeam2,
                     name = matchData.team2,
-                    Modifier.fillMaxWidth(0.38f)
+                    Modifier.fillMaxWidth(0.4f)
                 )
             }
 
