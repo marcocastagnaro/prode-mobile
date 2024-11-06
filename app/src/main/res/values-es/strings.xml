@@ -21,6 +21,9 @@
     <string name="exact_score">Resultados exact: </string>
     <string name="wrong_score">Resultados erroneos: </string>
     <string name="mid_score">Half result: </string>
+    <string name="correct_answer_description">Ganador correcto y resultado exacto, cada partido vale 3 puntos</string>
+    <string name="correct_winner_ddescription">Ganador correcto y resultado exacto, cada partido vale 3 puntos</string>
+    <string name="wrong_answer_description">Ganador correcto y resultado exacto, cada partido vale 3 puntos</string>
 
     <string name="fail_loading_leagues">"No se pueden obtener las ligas"</string>
     <string name="fail_loading_seasons">"No se pueden obtener las temporadas"</string>

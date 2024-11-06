@@ -1,7 +1,6 @@
 package com.example.prode_mobile.pronosticos
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,30 +28,25 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
-import com.example.prode_mobile.ui.theme.BlackColor
 import com.example.prode_mobile.ui.theme.CorrectResultColor
 import com.example.prode_mobile.ui.theme.CorrectWinnerColor
-import com.example.prode_mobile.ui.theme.DarkerGreyColor
-import com.example.prode_mobile.ui.theme.TitleBlueColor
+import com.example.prode_mobile.ui.theme.LargeFontSize
+import com.example.prode_mobile.ui.theme.MediumFontSize
+import com.example.prode_mobile.ui.theme.RegularFontSize
+import com.example.prode_mobile.ui.theme.SmallFontSize
 import com.example.prode_mobile.ui.theme.WrongPrediction
-import kotlinx.coroutines.launch
 
 @SuppressLint("StateFlowValueCalledInComposition", "SuspiciousIndentation")
 @Composable
@@ -142,7 +136,7 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                     style = TextStyle(
                         fontWeight = FontWeight.Black,
                         color = MaterialTheme.colorScheme.secondary,
-                        fontSize = dimensionResource(id = R.dimen.medium_font_size).value.sp,
+                        fontSize = MediumFontSize,
                         fontFamily = FontFamily.Monospace
                     ),
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -172,13 +166,13 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                             label = {
                                 Text(
                                     text = matchData.team1,
-                                    style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
+                                    style = TextStyle(fontSize = SmallFontSize)
                                 )
                             },
                             placeholder = {
                                 Text(
                                     text = "-",
-                                    style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
+                                    style = TextStyle(fontSize = SmallFontSize)
                                 )
                             },
                             isError = scoreTeam1 == null
@@ -194,13 +188,13 @@ fun MatchCard(matchData: MatchCardData, isOpen: Boolean,
                             label = {
                                 Text(
                                     text = matchData.team2,
-                                    style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
+                                    style = TextStyle(fontSize = SmallFontSize)
                                 )
                             },
                             placeholder = {
                                 Text(
                                     text = "-",
-                                    style = TextStyle(fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp)
+                                    style = TextStyle(fontSize = SmallFontSize)
                                 )
                             },
                             isError = scoreTeam2 == null
@@ -262,7 +256,7 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
         style = TextStyle(
             fontWeight = FontWeight.Black,
             color = MaterialTheme.colorScheme.secondary,
-            fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
+            fontSize = RegularFontSize,
             fontFamily = FontFamily.Monospace
         ),    )
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_spacer)))
@@ -275,14 +269,17 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
             Box(
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.march_box_result_size))
-                    .border(2.dp, MaterialTheme.colorScheme.tertiary)
+                    .border(
+                        dimensionResource(id = R.dimen.border_weight),
+                        MaterialTheme.colorScheme.tertiary
+                    )
                     .padding(dimensionResource(id = R.dimen.default_padding)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = localGoals.value.toString(),
                     style = TextStyle(
-                        fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
+                        fontSize = LargeFontSize,
                         fontWeight = FontWeight.Bold
                     ),
                     textAlign = TextAlign.Center
@@ -291,14 +288,17 @@ fun ShowPredictions (backgroundColor: Color, localGoals: MutableState<Int>, visi
             Box(
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.march_box_result_size))
-                    .border(2.dp, MaterialTheme.colorScheme.tertiary)
+                    .border(
+                        dimensionResource(id = R.dimen.border_weight),
+                        MaterialTheme.colorScheme.tertiary
+                    )
                     .padding(dimensionResource(id = R.dimen.default_padding)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = visitorGoals.value.toString(),
                     style = TextStyle(
-                        fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
+                        fontSize = LargeFontSize,
                         fontWeight = FontWeight.Bold
                     ),
                     textAlign = TextAlign.Center
@@ -314,7 +314,7 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
         style = TextStyle(
             fontWeight = FontWeight.Black,
             color = MaterialTheme.colorScheme.secondary,
-            fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
+            fontSize = RegularFontSize,
             fontFamily = FontFamily.Monospace
         ),
     )
@@ -327,14 +327,14 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
         Box(
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.march_box_result_size))
-                .border(2.dp, MaterialTheme.colorScheme.tertiary)
+                .border(dimensionResource(id = R.dimen.border_weight), MaterialTheme.colorScheme.tertiary)
                 .padding(dimensionResource(id = R.dimen.default_padding)),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = scoreTeam1.goals.toString() ?: "0",
                 style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
+                    fontSize = LargeFontSize,
                     fontWeight = FontWeight.Bold
                 ),
                 color = MaterialTheme.colorScheme.secondary,
@@ -344,14 +344,17 @@ fun ShowRealResults (scoreTeam1: ScoreMatchData, scoreTeam2: ScoreMatchData) {
         Box(
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.march_box_result_size))
-                .border(2.dp, MaterialTheme.colorScheme.tertiary)
+                .border(
+                    dimensionResource(id = R.dimen.border_weight),
+                    MaterialTheme.colorScheme.tertiary
+                )
                 .padding(dimensionResource(id = R.dimen.default_padding)),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = scoreTeam2.goals.toString() ?: "0",
                 style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
+                    fontSize = LargeFontSize,
                     fontWeight = FontWeight.Bold
                 ),
                 color = MaterialTheme.colorScheme.secondary,
@@ -381,7 +384,7 @@ fun SavePronosticoToDatabase(
         Text(
             text = stringResource(id = R.string.save_button),
             style = TextStyle(
-                fontSize = dimensionResource(id = R.dimen.small_font_size).value.sp
+                fontSize = SmallFontSize
             )
         )
     }

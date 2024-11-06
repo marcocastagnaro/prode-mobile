@@ -28,15 +28,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.prode_mobile.R
-import com.example.prode_mobile.ui.theme.BlackColor
 import com.example.prode_mobile.ui.theme.CorrectResultColor
 import com.example.prode_mobile.ui.theme.CorrectWinnerColor
-import com.example.prode_mobile.ui.theme.DarkerGreyColor
-import com.example.prode_mobile.ui.theme.GreyBackground
-import com.example.prode_mobile.ui.theme.WhiteColor
+import com.example.prode_mobile.ui.theme.SubtitleFontSize
+import com.example.prode_mobile.ui.theme.TitleDimensions
 import com.example.prode_mobile.ui.theme.WrongPrediction
 
 @Composable
@@ -46,13 +42,8 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
             .fillMaxWidth()
             .padding(
                 dimensionResource(id = R.dimen.small_padding)
-            )
-            .border(
-                2.dp,
-                color = MaterialTheme.colorScheme.secondary,
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape))
-            )
-            .background(MaterialTheme.colorScheme.primary),
+            ),
+        color = MaterialTheme.colorScheme.primary,
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape)),
         shadowElevation = dimensionResource(id = R.dimen.shadow_elevation_score)
     ) {
@@ -66,20 +57,19 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
             Text(
                 text = stringResource(id = R.string.my_score),
                 style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.my_score_font_size).value.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontSize = SubtitleFontSize,
                     color = MaterialTheme.colorScheme.secondary
                 ),
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
             )
             Card(
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary),
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape)),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .border(
-                        3.dp,
+                        dimensionResource(id = R.dimen.border_weight),
                         MaterialTheme.colorScheme.tertiary,
-                        shape = RoundedCornerShape(16.dp)
+                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape))
                     )
                     .fillMaxWidth(0.5f),
 
@@ -88,21 +78,26 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .padding(dimensionResource(id = R.dimen.default_padding))
                 ) {
                     Text(
                         text = score.value.toString(),
                         style = TextStyle(
-                            fontSize = dimensionResource(id = R.dimen.title_font_size).value.sp,
+                            fontSize = TitleDimensions,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.surface
+                            color = MaterialTheme.colorScheme.secondary
                         )
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)))
-            Row (horizontalArrangement = Arrangement.SpaceBetween) {
+            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.vertical_arrangement)))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id =R.dimen.default_padding),
+                    Alignment.CenterHorizontally
+                )
+            ) {
                 SmallScoreBox(exactScore.value, exactScore.value * 3, CorrectResultColor)
                 SmallScoreBox(midScore.value, midScore.value , CorrectWinnerColor)
                 SmallScoreBox(wrongScore.value, 0, WrongPrediction)

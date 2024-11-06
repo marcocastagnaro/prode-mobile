@@ -33,11 +33,10 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
 import com.example.prode_mobile.reusable.AlertDialogExample
+import com.example.prode_mobile.ui.theme.LargeFontSize
 
 @Composable
 fun Leagues() {
@@ -64,12 +63,12 @@ fun Leagues() {
         }
     } else if (showRetry) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.vertical_arrangement), Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(id = R.string.retry),
-                fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp,
+                fontSize = LargeFontSize,
                 fontWeight = FontWeight.Bold,
             )
             Text(text = stringResource(id = R.string.retry_load_leagues))
@@ -85,7 +84,7 @@ fun Leagues() {
                 item {
                     Text(
                         text = stringResource(id = R.string.my_leagues), style =
-                        TextStyle(fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp, color = MaterialTheme.colorScheme.secondary)
+                        TextStyle(fontSize = LargeFontSize, color = MaterialTheme.colorScheme.secondary)
                     )
                 }
                 item {
@@ -108,7 +107,7 @@ fun Leagues() {
                 item {
                     Text(
                         text = stringResource(id =R.string.all_leagues),
-                        style = TextStyle(fontSize = dimensionResource(id = R.dimen.large_font_size).value.sp, color = MaterialTheme.colorScheme.secondary)
+                        style = TextStyle(fontSize = LargeFontSize, color = MaterialTheme.colorScheme.secondary)
                     )
                     allLeaguesList.forEach { league ->
                         LeagueCard(league = league, false, true, viewModel)

@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.prode_mobile.R
@@ -31,20 +32,18 @@ import com.example.prode_mobile.ui.theme.WrongPrediction
 fun Reference() {
     Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                dimensionResource(id = R.dimen.small_padding)
-            )
-
-            .background(MaterialTheme.colorScheme.primary),
+            .padding(dimensionResource(id = R.dimen.small_padding)),
+        color = MaterialTheme.colorScheme.primary,
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape)),
         shadowElevation = dimensionResource(id = R.dimen.shadow_elevation_score)
     ){
-        Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.padding(
-            dimensionResource(id = R.dimen.default_padding))) {
-            ReferenceItem(color = CorrectResultColor, description = "Correct winner and exact result, each match is worth 3 points")
-            ReferenceItem(color = CorrectWinnerColor, description = "Correct winner but not exact result, each match is worth 1 point")
-            ReferenceItem(color = WrongPrediction, description = "Wrong prediction, each match is worth 0 points")
+        Column(
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.extra_large_padding)), // Espacio de 16.dp entre elementos
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding))
+        ) {
+            ReferenceItem(color = CorrectResultColor, description = stringResource(id = R.string.correct_answer_description))
+            ReferenceItem(color = CorrectWinnerColor, description = stringResource(id = R.string.correct_winner_ddescription))
+            ReferenceItem(color = WrongPrediction, description = stringResource(id = R.string.wrong_answer_description))
         }
     }
 }
@@ -52,10 +51,9 @@ fun Reference() {
 @Composable
 fun ReferenceItem(color: Color, description: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        // Circle bullet
         Box(
             modifier = Modifier
-                .size(12.dp)
+                .size(dimensionResource(id = R.dimen.large_padding))
                 .background(color = color)
         )
 
@@ -64,11 +62,11 @@ fun ReferenceItem(color: Color, description: String) {
             imageVector = Icons.Filled.ArrowForward,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.size(16.dp)
+            modifier = Modifier.size(dimensionResource(id =R.dimen.larger_padding))
         )
 
         // Description text
-        Text(text = description)
+        Text(text = description, color = MaterialTheme.colorScheme.onSurface, modifier = Modifier.padding(start = 8.dp))
     }
 }
 

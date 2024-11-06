@@ -1,5 +1,6 @@
 package com.example.prode_mobile.reusable
 
+import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.prode_mobile.R
+import com.example.prode_mobile.ui.theme.TitleDimensions
+import com.example.prode_mobile.ui.theme.XXLargeFontSize
 
 
 @Composable
@@ -37,9 +40,8 @@ fun TopTitle(string : Int) {
                 modifier = Modifier.size(dimensionResource(id = R.dimen.icon_title_size))
             )
             Text(text = stringResource(id = string), style = TextStyle(
-                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.secondary,
-                fontSize = dimensionResource(id = R.dimen.xxlarge_font_size).value.sp,
+                fontSize = XXLargeFontSize,
                 fontFamily = FontFamily.Monospace
             )
             )

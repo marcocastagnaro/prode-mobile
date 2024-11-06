@@ -10,4 +10,7 @@
     <dimen name ="save_button_height">24.dp</dimen>
     <dimen name="shadow_elevation">8.dp</dimen>
     <dimen name="make_predictions_title_surface_size">140.dp</dimen>
+    <dimen name="regular_dimension">12.dp</dimen>
+    <dimen name="border_weight">2.dp</dimen>
+    <dimen name="vertical_arrangement">10.dp</dimen>
 </resources>

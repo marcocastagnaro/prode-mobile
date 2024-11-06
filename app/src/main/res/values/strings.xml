@@ -22,6 +22,9 @@
     <string name="wrong_score">Wrong score: </string>
     <string name="mid_score">Mid score: </string>
 
+    <string name="correct_answer_description">Correct winner and exact result, each match is worth 3 points</string>
+    <string name="correct_winner_ddescription">Correct winner and exact result, each match is worth 3 points</string>
+    <string name="wrong_answer_description">Correct winner and exact result, each match is worth 3 points</string>
 
     <string name="fail_loading_leagues">"Can't get leagues"</string>
     <string name="fail_loading_seasons">"Can't get seasons"</string>

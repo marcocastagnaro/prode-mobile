@@ -32,10 +32,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
+import com.example.prode_mobile.ui.theme.RegularFontSize
+import com.example.prode_mobile.ui.theme.TitleDimensions
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -101,12 +101,12 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
         }
     } else if (showMatchesRetry) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.vertical_arrangement), Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(id = R.string.retry),
-                fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
+                fontSize = RegularFontSize,
                 fontWeight = FontWeight.Bold,
             )
             Text(text = stringResource(id = R.string.retry_load_matches))
@@ -168,17 +168,15 @@ fun MakePredictionsTitle () {
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             Text(
                 text = stringResource(id = R.string.pronsoticos_title), style = TextStyle(
-                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.secondary,
-                    fontSize = dimensionResource(id = R.dimen.xxlarge_font_size).value.sp,
+                    fontSize = TitleDimensions,
                     fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding))
             )
             Text(
                 text = stringResource(id = R.string.pronsoticos_subtitle), style = TextStyle(
-                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.secondary,
-                    fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
+                    fontSize = RegularFontSize,
                     fontFamily = FontFamily.SansSerif
                 ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)
                 )
@@ -204,12 +202,12 @@ fun ShowWhenLeagueIsSelected(loadingRounds : Boolean, showRetry : Boolean, viewM
         }
     } else if (showRetry) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.vertical_arrangement), Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(id = R.string.retry),
-                fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp,
+                fontSize = RegularFontSize,
                 fontWeight = FontWeight.Bold,
             )
             Text(text = stringResource(id = R.string.retry_load_rounds))

@@ -28,10 +28,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.prode_mobile.R
+import com.example.prode_mobile.ui.theme.RegularFontSize
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -51,13 +50,13 @@ fun LeagueCard(
             .height(dimensionResource(id = R.dimen.league_card_height))
             .fillMaxWidth()
             .border(
-                1.dp,
+                dimensionResource(id = R.dimen.border_weight),
                 color = MaterialTheme.colorScheme.secondary,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.default_padding))
             )
             .clickable(enabled = isAvailable) {}, // clickable only if available
-        shape = RoundedCornerShape(8.dp),
-        tonalElevation = 4.dp
+        shape = RoundedCornerShape(dimensionResource(R.dimen.default_padding)),
+        tonalElevation = dimensionResource(R.dimen.small_padding)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -78,14 +77,14 @@ fun LeagueCard(
                     text = league.name,
                     style = TextStyle(
                         color = MaterialTheme.colorScheme.tertiary,
-                        fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp
+                        fontSize = RegularFontSize
                     )
                 )
                 Text(
                     text = "${stringResource(id = R.string.category)}: ${league.category}",
                     style = TextStyle(
                         color = MaterialTheme.colorScheme.tertiary,
-                        fontSize = dimensionResource(id = R.dimen.regular_font_size).value.sp
+                        fontSize = RegularFontSize
                     )
                 )
             }

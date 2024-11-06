@@ -15,11 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+
 import com.example.prode_mobile.R
+import com.example.prode_mobile.ui.theme.MediumFontSize
+import com.example.prode_mobile.ui.theme.RegularFontSize
+import com.example.prode_mobile.ui.theme.SmallFontSize
 
 @Composable
 fun SmallScoreBox(score: Int, posibleScore: Int, backgroundColor: Color) {
@@ -27,25 +30,27 @@ fun SmallScoreBox(score: Int, posibleScore: Int, backgroundColor: Color) {
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape)),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
         modifier = Modifier
-            .padding(dimensionResource(id =R.dimen.default_padding))
-            .height(100.dp)
+            .padding(dimensionResource(id = R.dimen.default_padding))
+            .height(dimensionResource(id = R.dimen.match_card_initial_height))
     ) {
         Column (verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center, modifier = Modifier.fillMaxHeight()) {
             Text(
                 text = "Score: $posibleScore",
                 style = TextStyle(
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.surface
+                    fontSize = RegularFontSize,
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontFamily = FontFamily.Serif
                 ),
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(dimensionResource(id =R.dimen.default_padding))
             )
             Text(
                 text = "Matches: $score",
                 style = TextStyle(
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.surface
+                    fontSize = RegularFontSize,
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontFamily = FontFamily.Serif
                 ),
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(dimensionResource(id =R.dimen.default_padding))
             )
         }
     }

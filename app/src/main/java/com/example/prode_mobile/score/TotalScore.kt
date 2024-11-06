@@ -19,10 +19,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.prode_mobile.R
 import com.example.prode_mobile.pronosticos.PronosticosViewModel
+import com.example.prode_mobile.ui.theme.TitleDimensions
 
 
 @Composable
@@ -36,13 +36,12 @@ fun ScoreAndProfile() {
         Column {
             Text(
                 text = stringResource(id = R.string.score_and_profile), style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.title_font_size).value.sp,
+                    fontSize = TitleDimensions,
                     fontFamily = FontFamily.Serif,
                     color = MaterialTheme.colorScheme.secondary
                 ), modifier = Modifier.padding(
                     dimensionResource(id = R.dimen.large_padding))
             )
-            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
             Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.default_spacer)))
             Divider(
                 modifier = Modifier

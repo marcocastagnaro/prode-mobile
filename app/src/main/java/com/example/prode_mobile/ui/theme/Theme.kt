@@ -18,7 +18,7 @@ private val LightColorScheme = lightColorScheme(
     surface = WhiteColor,
     tertiary = BlackColor,
     onError = Purple80,
-    onErrorContainer = PurpleGrey80
+    onErrorContainer = PurpleGrey80,
 )
 
 // Dark Color Scheme
@@ -29,7 +29,7 @@ private val DarkColorScheme = darkColorScheme(
     surface = WhiteColorDark,
     tertiary = BlackColorDark,
     onError = Purple80Dark,
-    onErrorContainer = PurpleGrey80Dark
+    onErrorContainer = PurpleGrey80Dark,
 )
 
 
