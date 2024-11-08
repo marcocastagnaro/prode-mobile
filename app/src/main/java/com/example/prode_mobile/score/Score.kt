@@ -62,34 +62,7 @@ fun Score(score: State<Int>, exactScore: State<Int> , midScore: State<Int>, wron
                 ),
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_padding))
             )
-            Card(
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape)),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
-                modifier = Modifier
-                    .border(
-                        dimensionResource(id = R.dimen.border_weight),
-                        MaterialTheme.colorScheme.tertiary,
-                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_shape))
-                    )
-                    .fillMaxWidth(0.5f),
-
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(dimensionResource(id = R.dimen.default_padding))
-                ) {
-                    Text(
-                        text = score.value.toString(),
-                        style = TextStyle(
-                            fontSize = TitleDimensions,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                    )
-                }
-            }
+            ScoreCard(score = score)
 
             Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.vertical_arrangement)))
             Row(

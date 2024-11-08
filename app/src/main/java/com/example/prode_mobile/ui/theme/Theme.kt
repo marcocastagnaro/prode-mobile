@@ -19,6 +19,7 @@ private val LightColorScheme = lightColorScheme(
     tertiary = BlackColor,
     onError = Purple80,
     onErrorContainer = PurpleGrey80,
+
 )
 
 // Dark Color Scheme
@@ -30,19 +31,7 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = BlackColorDark,
     onError = Purple80Dark,
     onErrorContainer = PurpleGrey80Dark,
-)
-
-
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    )
 
 
 @Composable

@@ -64,7 +64,7 @@ fun Pronosticos() {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            MakePredictionsTitle()
+            PredictionsTitle()
 
             LeagueSelector(leagues, onLeagueSelected = { league ->
                 isLeagueSelected = true
@@ -155,35 +155,6 @@ fun ShowWhenRoundSelected(matchesLoading: Boolean, showMatchesRetry: Boolean, vi
     }
 }
 
-
-
-@Composable
-fun MakePredictionsTitle () {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.make_predictions_title_surface_size)),
-        color = MaterialTheme.colorScheme.primary,
-    ) {
-        Column (horizontalAlignment = Alignment.CenterHorizontally){
-            Text(
-                text = stringResource(id = R.string.pronsoticos_title), style = TextStyle(
-                    color = MaterialTheme.colorScheme.secondary,
-                    fontSize = TitleDimensions,
-                    fontFamily = FontFamily.SansSerif
-                ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding))
-            )
-            Text(
-                text = stringResource(id = R.string.pronsoticos_subtitle), style = TextStyle(
-                    color = MaterialTheme.colorScheme.secondary,
-                    fontSize = RegularFontSize,
-                    fontFamily = FontFamily.SansSerif
-                ), modifier = Modifier.padding(dimensionResource(id = R.dimen.large_padding)
-                )
-            )
-        }
-    }
-}
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ShowWhenLeagueIsSelected(loadingRounds : Boolean, showRetry : Boolean, viewModel : PronosticosViewModel, onDateAndLeagueSelected: (Boolean) -> Unit, selectedLeague : String?) {

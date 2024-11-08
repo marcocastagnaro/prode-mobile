@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.prode_mobile.R
 import com.example.prode_mobile.data.LeagueAndSeason
@@ -63,4 +64,16 @@ fun LeagueSelector(leagues: List<LeagueAndSeason>, onLeagueSelected: (String) ->
             }
         }
     }
+}
+@Preview
+@Composable
+fun LeagueSelectorPreview() {
+    LeagueSelector(
+        leagues = listOf(
+            LeagueAndSeason(1, 1, 1, "League 1", true, "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 1, 1),
+            LeagueAndSeason(2, 1, 1, "League 2", true, "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 1, 1),
+            LeagueAndSeason(3, 1, 1, "League 3", true, "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 1, 1)
+        ),
+        onLeagueSelected = { /* No-op for preview */ }
+    )
 }

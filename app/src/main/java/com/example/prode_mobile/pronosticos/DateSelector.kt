@@ -72,3 +72,9 @@ fun DateSelector(dates: List<FechaSelector>, isDateAndLeagueSelected :() -> Unit
         }
     }
 }
+@Preview
+@Composable
+fun DateSelectorPreview() {
+    val dates = listOf(FechaSelector(1), FechaSelector(2), FechaSelector(3))
+    DateSelector(dates, {}, {})
+}
